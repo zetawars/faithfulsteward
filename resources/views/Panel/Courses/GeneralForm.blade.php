@@ -1,4 +1,4 @@
-        <!-- text input -->
+
         <div class="col-md-8">
                     <div class="form-group">
                       <label>Course Name</label>
