@@ -118,7 +118,7 @@ return [
     */
 
 	
-    'key' => '32charshere',
+    'key' => env('base64:HxjAM9FKSkPOnnH6NOG0Y8ke9PdSa2KVr47TRGD4+0k='),
 
     'cipher' => 'AES-256-CBC',
 
