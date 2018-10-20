@@ -3,14 +3,18 @@
 @section('content')
 <div class="content-wrapper">
     <section class="content-header">
-    <ol class="breadcrumb">
-
+      <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
                 <li class="active">Dashboard</li>
             </ol>
-           
-            <h1>Add Course</h1>
-            <div class="col-md-10"> 
+      <h1>Add Course</h1>
+      
+      </section>
+
+      <section class="content">
+<div class="row">
+<div class="col-md-offset-2 col-md-8">
+
             <div class="nav-tabs-custom">
             <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">General</a></li>
@@ -151,11 +155,14 @@
             <!-- /.tab-content -->
           </div>
 
-
-
+</div>
 </div>
 
 
+
+
+
+      </section> 
 </div>
 
 
