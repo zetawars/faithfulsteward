@@ -20,9 +20,9 @@
             <li class="active"><a href="#tab_1" data-toggle="tab">General</a></li>
                        <li><a href="#tab_2" data-toggle="tab">Syllabus</a></li>
                        <li><a href="#tab_3" data-toggle="tab">Availibility</a></li>
-                       <li><a href="#tab_2" data-toggle="tab">Compleition</a></li>
-                       <li><a href="#tab_3" data-toggle="tab">Message</a></li>
-                       <li><a href="#tab_3" data-toggle="tab">More</a></li>
+                       <li><a href="#tab_4" data-toggle="tab">Compleition</a></li>
+                       <li><a href="#tab_5" data-toggle="tab">Message</a></li>
+                       <li><a href="#tab_6" data-toggle="tab">More</a></li>
             </ul>
             <div class="tab-content">
               <div class="tab-pane active" id="tab_1">
@@ -144,8 +144,8 @@
               </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_2">
-                
-              </div>
+           
+            </div>
               <!-- /.tab-pane -->
               <div class="tab-pane" id="tab_3">
                

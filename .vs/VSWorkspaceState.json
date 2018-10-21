@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\Panel",
+    "\\resources\\views\\Panel\\Home",
+    "\\resources\\views\\Panel\\Overview"
+  ],
+  "SelectedNode": "\\resources\\views\\Panel\\Overview\\Dashboard.blade.php",
+  "PreviewInSolutionExplorer": false
+}
