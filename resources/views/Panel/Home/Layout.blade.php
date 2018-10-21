@@ -334,17 +334,25 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="treeview">
+                    {{--<a href="{{url('/')}}/dashboard">--}}
+                        {{--<i class="fa fa-dashboard"></i> <span>Dashboard</span>--}}
+                        {{--<span class="pull-right-container">--}}
+                        {{--<i class="fa fa-angle-left pull-right"></i>--}}
+                         {{--</span>--}}
+                    {{--</a>--}}
+                </li>
+
+                <li class="active">
                     <a href="{{url('/')}}/dashboard">
-                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <i class="fa fa-th"></i> <span>Dashboard</span>
                         <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+              <!-- <small class="label pull-right bg-green">new</small> -->
+            </span>
                     </a>
                 </li>
-              
-        
-    
-         <li class="active">
+
+
+                <li class="active">
           <a href="{{url('/')}}/course">
             <i class="fa fa-th"></i> <span>Courses</span>
             <span class="pull-right-container">
