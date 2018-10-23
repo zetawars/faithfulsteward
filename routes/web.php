@@ -28,3 +28,5 @@ Route::get('/logout','AccountController@Logout');
 Route::get('/dashboard','OverviewController@Dashboard')->name('dashboard');
 
 Route::get('/course', 'CourseController@General');
+Route::get('/course/view','CourseController@viewCourse');
+Route::get('/course/manage','CourseController@ManageCourse');

@@ -1,5 +1,3 @@
-<?php
-?>
 
 @extends('Panel.Home.Layout')
 
@@ -316,7 +314,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="box box-primary">
@@ -493,7 +490,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="box box-solid bg-light-blue-gradient">
@@ -584,7 +580,6 @@
 
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="box box-info">
@@ -923,10 +918,10 @@
             <!-- Small boxes (Stat box) -->
 
             <!-- /.row (main row) -->
-
         </section>
         <!-- /.content -->
     </div>
+
 
     <!-- jQuery 3 -->
     <script src="{{ url('/') }}/Admin/bower_components/jquery/dist/jquery.min.js"></script>

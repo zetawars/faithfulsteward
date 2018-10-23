@@ -344,7 +344,7 @@
 
                 <li class="active">
                     <a href="{{url('/')}}/dashboard">
-                        <i class="fa fa-th"></i> <span>Dashboard</span>
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                         <span class="pull-right-container">
               <!-- <small class="label pull-right bg-green">new</small> -->
             </span>
