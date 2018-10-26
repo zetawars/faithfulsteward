@@ -30,3 +30,17 @@ Route::get('/dashboard','OverviewController@Dashboard')->name('dashboard');
 Route::get('/course', 'CourseController@General');
 Route::get('/course/view','CourseController@viewCourse');
 Route::get('/course/manage','CourseController@ManageCourse');
+Route::get('/course/newcourse','CourseController@NewCourse');
+
+
+Route::get('/enroll/learner','LearnerController@EnrollLearner');
+
+
+
+Route::get('/mastermind','MastermindController@Mastermind');
+Route::get('/mastermind/new','MastermindController@NewMastermind');
+
+
+
+Route::get('/category','CategoryController@Category');
+Route::get('/category/add','CategoryController@CategoryAdd');
