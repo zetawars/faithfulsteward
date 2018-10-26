@@ -15,9 +15,10 @@
                 <!-- Custom Tabs -->
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab_1" data-toggle="tab">New Course</a></li>
+                        <li><a href="{{url('/')}}/course/newcourse" class="btn btn-default">New Course</a></li>
                         <li><a href="#tab_2" data-toggle="tab">New Mastermind</a></li>
                         <li><a href="#tab_3" data-toggle="tab">New Category</a></li>
+
 
 
                     </ul>

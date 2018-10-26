@@ -19,4 +19,8 @@ class CourseController extends Controller
     {
         return view('Panel.Courses.ManageCourse');
     }
+    public function NewCourse()
+    {
+        return view('Panel.Courses.NewCourse');
+    }
 }
