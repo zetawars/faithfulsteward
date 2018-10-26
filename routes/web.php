@@ -44,3 +44,7 @@ Route::get('/mastermind/new','MastermindController@NewMastermind');
 
 Route::get('/category','CategoryController@Category');
 Route::get('/category/add','CategoryController@CategoryAdd');
+
+
+
+Route::get('/landingpage','LandingPageController@Index');

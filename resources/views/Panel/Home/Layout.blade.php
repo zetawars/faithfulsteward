@@ -28,6 +28,10 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ url('/') }}/Admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+
+    <link rel="stylesheet" href="{{ url('/') }}/Admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+
     <!-- Google Font -->
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -36,6 +40,57 @@
         .user-panel > .info {
             position: relative !important;
         }
+    </style>
+
+     <style>
+        .switch input {
+            display: none;
+        }
+
+        .switch {
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin: 8px;
+            transform: translateY(50%);
+            position: relative;
+        }
+
+        .slider {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 30px;
+            box-shadow: 0 0 0 2px #777, 0 0 4px #777;
+            cursor: pointer;
+            border: 4px solid transparent;
+            overflow: hidden;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: #777;
+            border-radius: 30px;
+            transform: translateX(-30px);
+            transition: .4s;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(30px);
+            background: limeGreen;
+        }
+
+        input:checked + .slider {
+            box-shadow: 0 0 0 2px limeGreen, 0 0 2px limeGreen;
+        }
+
+
     </style>
 </head>
 
@@ -392,13 +447,10 @@
                     </a>
                 </li>
 
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-dashboard"></i> <span>Landing Pages</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
-                    </a>
+                <li> 
+                <a href="{{url('/')}}/landingpage"> 
+                    <i class="fa fa-dashboard"></i> <span>Landing Pages</span> 
+                </a>
                 </li>
 
 
@@ -872,10 +924,36 @@
 <!-- FastClick -->
 <script src="{{ url('/') }}/Admin/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- AdminLTE App -->
+
+
+<script src="{{ url('/') }}/Admin/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="{{ url('/') }}/Admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+
+
+
+
+<script src="{{ url('/') }}/Admin/plugins/tinymce/tinymce.js"></script>
+<script src="{{ url('/') }}/Admin/plugins/tinymce/jquery.tinymce.js"></script>
+
+
+<script src="{{ url('/') }}/Admin/plugins/iCheck/icheck.min.js"></script>
+
+
+
+
 <script src="{{ url('/') }}/Admin/dist/js/adminlte.min.js"></script>
 {{--<!-- AdminLTE dashboard demo (This is only for demo purposes) -->--}}
 {{--<script src="{{ url('/') }}/Admin/dist/js/pages/dashboard.js"></script>--}}
 <!-- AdminLTE for demo purposes -->
 {{--<script src="{{ url('/') }}/Admin/dist/js/demo.js"></script>--}}
+
+
+<script>
+$(".dataTable").DataTable();
+//$('.icheck').iCheck()
+
+</script>
+@yield('scripts')
 
 </body>
