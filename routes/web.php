@@ -47,4 +47,11 @@ Route::get('/category/add','CategoryController@CategoryAdd');
 
 
 
-Route::get('/landingpage','LandingPageController@Index');
+Route::get('/landing','LandingPageController@Index');
+Route::get('/landing/add','LandingPageController@AddLanding');
+
+Route::get('/compagin','CompaginController@Index');
+Route::get('/compagin/add','CompaginController@CompaginAdd');
+
+Route::get('/project','ProjectController@Index');
+Route::get('/project/add','ProjectController@ProjectAdd');

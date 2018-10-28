@@ -15,8 +15,8 @@
 		<div class="box">
 			<div class="box-header">
 				<a href="{{url('/')}}/course/newcourse" class="btn btn-success">New Course</a>
-				<a href="#tab_2" data-toggle="tab"class="btn btn-primary" >New Mastermind</a>
-				<a href="#tab_3" data-toggle="tab" class="btn btn-warning">New Category</a>
+				<a href="{{url('/')}}/mastermind/new" class="btn btn-primary" >New Mastermind</a>
+				<a href="{{url('/')}}/category/add"  class="btn btn-warning">New Category</a>
 			</div>
 
 			<div class="box-body">

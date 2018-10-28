@@ -448,28 +448,24 @@
                 </li>
 
                 <li> 
-                <a href="{{url('/')}}/landingpage"> 
-                    <i class="fa fa-dashboard"></i> <span>Landing Pages</span> 
+                <a href="{{url('/')}}/landing">
+                    <i class="fa fa-dashboard"></i> <span>Landing</span>
                 </a>
                 </li>
 
 
-                <li class="treeview">
-                    <a href="#">
+                <li>
+                    <a href="{{url('/')}}/compagin">
                         <i class="fa fa-dashboard"></i> <span>Compagin</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+
                     </a>
                 </li>
 
 
-                <li class="treeview">
-                    <a href="#">
+                <li>
+                    <a href="{{url('/')}}/project">
                         <i class="fa fa-dashboard"></i> <span>Projects</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+
                     </a>
                 </li>
 
