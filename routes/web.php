@@ -45,8 +45,6 @@ Route::get('/mastermind/new','MastermindController@NewMastermind');
 Route::get('/category','CategoryController@Category');
 Route::get('/category/add','CategoryController@CategoryAdd');
 
-
-
 Route::get('/landing','LandingPageController@Index');
 Route::get('/landing/add','LandingPageController@AddLanding');
 
@@ -55,3 +53,9 @@ Route::get('/compagin/add','CompaginController@CompaginAdd');
 
 Route::get('/project','ProjectController@Index');
 Route::get('/project/add','ProjectController@ProjectAdd');
+
+
+Route::get('/users','UserController@Index');
+Route::get('/users/add','UserController@UserAdd');
+Route::get('/users/profile','UserController@UserProfile');
+
