@@ -15,7 +15,7 @@
             <div class="nav-tabs">
                 <div class="row">
                     <div class="col-md-3">
-                        <a href="{{url('/')}}/project/add" class="btn btn-default">Custom Reports</a>
+                        <a href="{{url('/')}}/report/custom" class="btn btn-default">Custom Reports</a>
                     </div>
                 </div>
             </div>
