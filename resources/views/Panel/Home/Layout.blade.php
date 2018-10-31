@@ -12,6 +12,11 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="{{ url('/') }}/Admin/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
+
+<link href="{{ url('/') }}/Admin/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet" />
+
+
+
     <link rel="stylesheet" href="{{ url('/') }}/Admin/dist/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
@@ -28,8 +33,11 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ url('/') }}/Admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+    <link rel="stylesheet" href="{{ url('/') }}/Admin/plugins/jquery-steps/demo/css/jquery.steps.css" />
 
     <link rel="stylesheet" href="{{ url('/') }}/Admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+
 
 
     <!-- Google Font -->
@@ -920,7 +928,13 @@
 <script src="{{ url('/') }}/Admin/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 <script src="{{ url('/') }}/Admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
+<script src="{{ url('/') }}/Admin/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="{{ url('/') }}/Admin/plugins/jquery-validation/dist/additional-methods.min.js"></script>
 
+
+
+
+<script src="{{ url('/') }}/Admin/plugins/jquery-steps/build/jquery.steps.min.js"></script>
 
 
 
@@ -932,8 +946,10 @@
 
 
 
+<script src="{{ url('/') }}/Admin/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 
 <script src="{{ url('/') }}/Admin/dist/js/adminlte.min.js"></script>
+
 {{--<!-- AdminLTE dashboard demo (This is only for demo purposes) -->--}}
 {{--<script src="{{ url('/') }}/Admin/dist/js/pages/dashboard.js"></script>--}}
 <!-- AdminLTE for demo purposes -->
