@@ -478,12 +478,10 @@
                     </a>
                 </li>
 
-                <li class="treeview">
-                    <a href="#">
+                <li>
+                    <a href="{{url('/')}}/report">
                         <i class="fa fa-dashboard"></i> <span>Reports</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+
                     </a>
                 </li>
 

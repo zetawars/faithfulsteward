@@ -55,3 +55,7 @@ Route::get('/compagin/add','CompaginController@CompaginAdd');
 
 Route::get('/project','ProjectController@Index');
 Route::get('/project/add','ProjectController@ProjectAdd');
+
+Route::get('/report','ReportController@Index');
+Route::get('/report/view','ReportController@View');
+Route::get('/report/custom','ReportController@CustomReport');
