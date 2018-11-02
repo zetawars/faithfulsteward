@@ -73,7 +73,7 @@
                                     <tbody>
                                     <tr>
                                         <td>1.</td>
-                                        <td>Thomas Kofi Wilmot</td>
+                                        <td><a href="{{url('/')}}/report/userreport">Thomas Kofi Wilmot</a></td>
                                         <td>Admin</td>
 
                                         <td></td>
@@ -84,7 +84,7 @@
                                     </tr>
                                     <tr>
                                         <td>2.</td>
-                                        <td>Abrhan Joshua</td>
+                                        <td><a href="{{url('/')}}/report/userreport">Abrhan Joshua</a></td>
                                         <td>Learner</td>
                                         <td></td>
 
@@ -95,7 +95,7 @@
                                     </tr>
                                     <tr>
                                         <td>3.</td>
-                                        <td>solomon David</td>
+                                        <td> <a href="{{url('/')}}/report/userreport">solomon David</a></td>
                                         <td>Instructor</td>
                                         <td></td>
 

@@ -10,15 +10,20 @@ class ReportController extends Controller
     {
         return view('Panel.Report.Index');
     }
+
     public function View()
     {
 
-         return view('Panel.Report.List');
+        return view('Panel.Report.List');
     }
 
 
     public function CustomReport()
     {
         return view('Panel.Report.CustomReport');
+    }
+    public function UserReport()
+    {
+        return view('Panel.Report.UserReport');
     }
 }

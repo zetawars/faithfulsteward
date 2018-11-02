@@ -64,3 +64,7 @@ Route::get('/users/profile','UserController@UserProfile');
 Route::get('/report','ReportController@Index');
 Route::get('/report/view','ReportController@View');
 Route::get('/report/custom','ReportController@CustomReport');
+Route::get('/report/userreport','ReportController@UserReport');
+
+
+Route::get('/setting','SettingController@Index');

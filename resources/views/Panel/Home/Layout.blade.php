@@ -427,31 +427,25 @@
                 </li>
 
 
-                <li class="active">
+                <li>
                     <a href="{{url('/')}}/course">
                         <i class="fa fa-th"></i> <span>Courses</span>
-                        <span class="pull-right-container">
-              <!-- <small class="label pull-right bg-green">new</small> -->
-            </span>
+
                     </a>
                 </li>
 
-                <li class="">
+                <li>
                     <a href="{{url('/')}}/mastermind">
                         <i class="fa fa-dashboard"></i> <span>Mastermind</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+
                     </a>
                 </li>
 
 
-                <li class="">
+                <li>
                     <a href="{{url('/')}}/category">
                         <i class="fa fa-dashboard"></i> <span>Categories</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+
                     </a>
                 </li>
 
@@ -490,12 +484,10 @@
                     </a>
                 </li>
 
-                <li class="treeview">
-                    <a href="#">
+                <li>
+                    <a href="{{url('/')}}/setting">
                         <i class="fa fa-dashboard"></i> <span>Settings</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                         </span>
+
                     </a>
                 </li>
 
