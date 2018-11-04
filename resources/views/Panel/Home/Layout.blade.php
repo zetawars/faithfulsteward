@@ -38,6 +38,10 @@
     <link rel="stylesheet" href="{{ url('/') }}/Admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
 
+<link href="{{ url('/') }}/Admin/plugins/OwlCarousel/dist/assets/owl.carousel.min.css" rel="stylesheet"/>
+
+<link href="{{ url('/') }}/Admin/plugins/OwlCarousel/dist/assets/owl.theme.green.min.css" rel="stylesheet"/>
+
 
 
     <!-- Google Font -->
@@ -499,6 +503,18 @@
                          </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('/')}}/instructor/index">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('/')}}/instructor/courses">
+                        <i class="fa fa-dashboard"></i> <span>courses</span>
+
+                    </a>
+                </li>
 
                 {{--<ul class="treeview-menu">--}}
                 {{--<li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>--}}
@@ -938,6 +954,9 @@
 
 
 
+<script src="{{ url('/') }}/Admin/plugins/OwlCarousel/dist/owl.carousel.min.js"></script>
+
+
 <script src="{{ url('/') }}/Admin/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
 
 <script src="{{ url('/') }}/Admin/dist/js/adminlte.min.js"></script>
@@ -951,6 +970,26 @@
 <script>
 $(".dataTable").DataTable();
 
+$('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:10,
+    responsiveClass:true,
+    responsive:{
+        0:{
+            items:1,
+            nav:true
+        },
+        600:{
+            items:3,
+            nav:false
+        },
+        1000:{
+            items:5,
+            nav:true,
+            loop:false
+        }
+    }
+})
 
 //powerpaste, advcode, tinymcespellchecker, a11ychecker,mediaembed, linkchecker
 tinymce.init({
