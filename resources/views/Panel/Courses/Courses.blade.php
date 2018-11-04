@@ -20,7 +20,7 @@
 			</div>
 
 			<div class="box-body">
-				<table class="table table-bordered dataTable">
+				<table class="table table-bordered datatable">
 					<thead>
 						<tr>
 							<th style="width: 10px">#</th>

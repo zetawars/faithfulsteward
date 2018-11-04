@@ -11,17 +11,30 @@
  *
  * =========================================================
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * bootstrap-slider is released under the MIT License
+ * Copyright (c) 2017 Kyle Kemp, Rohit Kalkur, and contributors
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ *
  * ========================================================= */
 
 
@@ -30,8 +43,10 @@
  * v1.0.1
  * MIT license
  */
+const windowIsDefined = (typeof window === "object");
 
-(function(root, factory) {
+
+(function(factory) {
 	if(typeof define === "function" && define.amd) {
 		define(["jquery"], factory);
 	}
@@ -45,10 +60,25 @@
 		}
 		module.exports = factory(jQuery);
 	}
-	else {
-		root.Slider = factory(root.jQuery);
+	else if(window) {
+		window.Slider = factory(window.jQuery);
 	}
-}(this, function($) {
+}(function($) {
+	// Constants
+	const NAMESPACE_MAIN = 'slider';
+	const NAMESPACE_ALTERNATE = 'bootstrapSlider';
+
+	// Polyfill console methods
+	if (windowIsDefined && !window.console) {
+		window.console = {};
+	}
+	if (windowIsDefined && !window.console.log) {
+		window.console.log = function () { };
+	}
+	if (windowIsDefined && !window.console.warn) {
+		window.console.warn = function () { };
+	}
+
 	// Reference to Slider constructor
 	var Slider;
 
@@ -207,25 +237,26 @@
 			linear: {
 				toValue: function(percentage) {
 					var rawValue = percentage/100 * (this.options.max - this.options.min);
+					var shouldAdjustWithBase = true;
 					if (this.options.ticks_positions.length > 0) {
 						var minv, maxv, minp, maxp = 0;
-						for (var i = 0; i < this.options.ticks_positions.length; i++) {
+						for (var i = 1; i < this.options.ticks_positions.length; i++) {
 							if (percentage <= this.options.ticks_positions[i]) {
-								minv = (i > 0) ? this.options.ticks[i-1] : 0;
-								minp = (i > 0) ? this.options.ticks_positions[i-1] : 0;
+								minv = this.options.ticks[i-1];
+								minp = this.options.ticks_positions[i-1];
 								maxv = this.options.ticks[i];
 								maxp = this.options.ticks_positions[i];
 
 								break;
 							}
 						}
-						if (i > 0) {
-							var partialPercentage = (percentage - minp) / (maxp - minp);
-							rawValue = minv + partialPercentage * (maxv - minv);
-						}
+						var partialPercentage = (percentage - minp) / (maxp - minp);
+						rawValue = minv + partialPercentage * (maxv - minv);
+						shouldAdjustWithBase = false;
 					}
 
-					var value = this.options.min + Math.round(rawValue / this.options.step) * this.options.step;
+					var adjustment = shouldAdjustWithBase ? this.options.min : 0;
+					var value = adjustment + Math.round(rawValue / this.options.step) * this.options.step;
 					if (value < this.options.min) {
 						return this.options.min;
 					} else if (value > this.options.max) {
@@ -267,6 +298,9 @@
 					var min = (this.options.min === 0) ? 0 : Math.log(this.options.min);
 					var max = Math.log(this.options.max);
 					var value = Math.exp(min + (max - min) * percentage / 100);
+					if(Math.round(value) === this.options.max) {
+						return this.options.max;
+					}
 					value = this.options.min + Math.round((value - this.options.min) / this.options.step) * this.options.step;
 					/* Rounding to the nearest step could exceed the min or
 					 * max, so clip to those values. */
@@ -306,7 +340,6 @@
 
 			/*
 				The internal state object is used to store data about the current 'state' of slider.
-
 				This includes values such as the `value`, `enabled`, etc...
 			*/
 			this._state = {
@@ -319,6 +352,9 @@
 				over: false
 			};
 
+			// The objects used to store the reference to the tick methods if ticks_tooltip is on
+			this.ticksCallbackMap = {};
+			this.handleCallbackMap = {};
 
 			if(typeof element === "string") {
 				this.element = document.querySelector(element);
@@ -351,16 +387,23 @@
 				this.options[optName] = val;
 			}
 
+			// Check options.rtl
+			if(this.options.rtl==='auto'){
+				this.options.rtl = window.getComputedStyle(this.element).direction==='rtl';
+			}
+
 			/*
 				Validate `tooltip_position` against 'orientation`
 				- if `tooltip_position` is incompatible with orientation, swith it to a default compatible with specified `orientation`
-					-- default for "vertical" -> "right"
-					-- default for "horizontal" -> "left"
+					-- default for "vertical" -> "right", "left" if rtl
+					-- default for "horizontal" -> "top"
 			*/
 			if(this.options.orientation === "vertical" && (this.options.tooltip_position === "top" || this.options.tooltip_position === "bottom")) {
-
-				this.options.tooltip_position	= "right";
-
+				if(this.options.rtl) {
+					this.options.tooltip_position = "left";
+				}else{
+					this.options.tooltip_position = "right";
+				}
 			}
 			else if(this.options.orientation === "horizontal" && (this.options.tooltip_position === "left" || this.options.tooltip_position === "right")) {
 
@@ -430,6 +473,19 @@
 				sliderTrack.appendChild(sliderTrackSelection);
 				sliderTrack.appendChild(sliderTrackHigh);
 
+				/* Create highlight range elements */
+				this.rangeHighlightElements = [];
+				const rangeHighlightsOpts = this.options.rangeHighlights;
+				if (Array.isArray(rangeHighlightsOpts) && rangeHighlightsOpts.length > 0) {
+					for (let j = 0; j < rangeHighlightsOpts.length; j++) {
+						var rangeHighlightElement = document.createElement("div");
+						const customClassString = rangeHighlightsOpts[j].class || "";
+						rangeHighlightElement.className = `slider-rangeHighlight slider-selection ${customClassString}`;
+						this.rangeHighlightElements.push(rangeHighlightElement);
+						sliderTrack.appendChild(rangeHighlightElement);
+					}
+				}
+
 				/* Add aria-labelledby to handle's */
 				var isLabelledbyArray = Array.isArray(this.options.labelledby);
 				if (isLabelledbyArray && this.options.labelledby[0]) {
@@ -446,19 +502,28 @@
 				/* Create ticks */
 				this.ticks = [];
 				if (Array.isArray(this.options.ticks) && this.options.ticks.length > 0) {
+					this.ticksContainer = document.createElement('div');
+					this.ticksContainer.className = 'slider-tick-container';
+
 					for (i = 0; i < this.options.ticks.length; i++) {
 						var tick = document.createElement('div');
 						tick.className = 'slider-tick';
+						if (this.options.ticks_tooltip) {
+							var tickListenerReference = this._addTickListener();
+							var enterCallback = tickListenerReference.addMouseEnter(this, tick, i);
+							var leaveCallback = tickListenerReference.addMouseLeave(this, tick);
 
+							this.ticksCallbackMap[i] = {
+								mouseEnter: enterCallback,
+								mouseLeave: leaveCallback
+							};
+						}
 						this.ticks.push(tick);
-						sliderTrack.appendChild(tick);
+						this.ticksContainer.appendChild(tick);
 					}
 
 					sliderTrackSelection.className += " tick-slider-selection";
 				}
-
-				sliderTrack.appendChild(sliderMinHandle);
-				sliderTrack.appendChild(sliderMaxHandle);
 
 				this.tickLabels = [];
 				if (Array.isArray(this.options.ticks_labels) && this.options.ticks_labels.length > 0) {
@@ -477,8 +542,7 @@
 					}
 				}
 
-
-				var createAndAppendTooltipSubElements = function(tooltipElem) {
+				const createAndAppendTooltipSubElements = function(tooltipElem) {
 					var arrow = document.createElement("div");
 					arrow.className = "tooltip-arrow";
 
@@ -487,25 +551,23 @@
 
 					tooltipElem.appendChild(arrow);
 					tooltipElem.appendChild(inner);
-
 				};
 
 				/* Create tooltip elements */
-				var sliderTooltip = document.createElement("div");
+				const sliderTooltip = document.createElement("div");
 				sliderTooltip.className = "tooltip tooltip-main";
 				sliderTooltip.setAttribute('role', 'presentation');
 				createAndAppendTooltipSubElements(sliderTooltip);
 
-				var sliderTooltipMin = document.createElement("div");
+				const sliderTooltipMin = document.createElement("div");
 				sliderTooltipMin.className = "tooltip tooltip-min";
 				sliderTooltipMin.setAttribute('role', 'presentation');
 				createAndAppendTooltipSubElements(sliderTooltipMin);
 
-				var sliderTooltipMax = document.createElement("div");
+				const sliderTooltipMax = document.createElement("div");
 				sliderTooltipMax.className = "tooltip tooltip-max";
 				sliderTooltipMax.setAttribute('role', 'presentation');
 				createAndAppendTooltipSubElements(sliderTooltipMax);
-
 
 				/* Append components to sliderElem */
 				this.sliderElem.appendChild(sliderTrack);
@@ -516,6 +578,12 @@
 				if (this.tickLabelContainer) {
 					this.sliderElem.appendChild(this.tickLabelContainer);
 				}
+				if (this.ticksContainer) {
+					this.sliderElem.appendChild(this.ticksContainer);
+				}
+
+				this.sliderElem.appendChild(sliderMinHandle);
+				this.sliderElem.appendChild(sliderMaxHandle);
 
 				/* Append slider element to parent container, right before the original <input> element */
 				parent.insertBefore(this.sliderElem, this.element);
@@ -539,6 +607,9 @@
 
 			this.touchCapable = 'ontouchstart' in window || (window.DocumentTouch && document instanceof window.DocumentTouch);
 
+			this.touchX = 0;
+			this.touchY = 0;
+
 			this.tooltip = this.sliderElem.querySelector('.tooltip-main');
 			this.tooltipInner = this.tooltip.querySelector('.tooltip-inner');
 
@@ -556,12 +627,13 @@
 				// Reset classes
 				this._removeClass(this.sliderElem, 'slider-horizontal');
 				this._removeClass(this.sliderElem, 'slider-vertical');
+				this._removeClass(this.sliderElem, 'slider-rtl');
 				this._removeClass(this.tooltip, 'hide');
 				this._removeClass(this.tooltip_min, 'hide');
 				this._removeClass(this.tooltip_max, 'hide');
 
 				// Undo existing inline styles for track
-				["left", "top", "width", "height"].forEach(function(prop) {
+				["left", "right", "top", "width", "height"].forEach(function(prop) {
 					this._removeProperty(this.trackLow, prop);
 					this._removeProperty(this.trackSelection, prop);
 					this._removeProperty(this.trackHigh, prop);
@@ -570,17 +642,21 @@
 				// Undo inline styles on handles
 				[this.handle1, this.handle2].forEach(function(handle) {
 					this._removeProperty(handle, 'left');
+					this._removeProperty(handle, 'right');
 					this._removeProperty(handle, 'top');
 				}, this);
 
 				// Undo inline styles and classes on tooltips
 				[this.tooltip, this.tooltip_min, this.tooltip_max].forEach(function(tooltip) {
 					this._removeProperty(tooltip, 'left');
+					this._removeProperty(tooltip, 'right');
 					this._removeProperty(tooltip, 'top');
 					this._removeProperty(tooltip, 'margin-left');
+					this._removeProperty(tooltip, 'margin-right');
 					this._removeProperty(tooltip, 'margin-top');
 
 					this._removeClass(tooltip, 'right');
+					this._removeClass(tooltip, 'left');
 					this._removeClass(tooltip, 'top');
 				}, this);
 			}
@@ -594,10 +670,17 @@
 				this._addClass(this.sliderElem, 'slider-horizontal');
 				this.sliderElem.style.width = origWidth;
 				this.options.orientation = 'horizontal';
-				this.stylePos = 'left';
+				if(this.options.rtl) {
+					this.stylePos = 'right';
+				} else {
+					this.stylePos = 'left';
+				}
 				this.mousePos = 'pageX';
 				this.sizePos = 'offsetWidth';
-
+			}
+			// specific rtl class
+			if (this.options.rtl) {
+				this._addClass(this.sliderElem, 'slider-rtl');
 			}
 			this._setTooltipPosition();
 			/* In case ticks are specified, overwrite the min and max bounds */
@@ -626,6 +709,12 @@
 				this._addClass(this.trackLow, 'hide');
 				this._addClass(this.trackSelection, 'hide');
 				this._addClass(this.trackHigh, 'hide');
+			}
+
+			else if (this.options.selection === 'after' || this.options.selection === 'before') {
+				this._removeClass(this.trackLow, 'hide');
+				this._removeClass(this.trackSelection, 'hide');
+				this._removeClass(this.trackHigh, 'hide');
 			}
 
 			this.handle1 = sliderMinHandle || this.handle1;
@@ -670,11 +759,31 @@
 			this.handle2.addEventListener("keydown", this.handle2Keydown, false);
 
 			this.mousedown = this._mousedown.bind(this);
+			this.touchstart = this._touchstart.bind(this);
+			this.touchmove = this._touchmove.bind(this);
+
 			if (this.touchCapable) {
+				// Test for passive event support
+				let supportsPassive = false;
+				try {
+					let opts = Object.defineProperty({}, 'passive', {
+						get: function() {
+							supportsPassive = true;
+						}
+					});
+					window.addEventListener("test", null, opts);
+				} catch (e) {}
+				// Use our detect's results. passive applied if supported, capture will be false either way.
+				let eventOptions = supportsPassive ? { passive: true } : false;
 				// Bind touch handlers
-				this.sliderElem.addEventListener("touchstart", this.mousedown, false);
+				this.sliderElem.addEventListener("touchstart", this.touchstart, eventOptions);
+				this.sliderElem.addEventListener("touchmove", this.touchmove, eventOptions);
 			}
 			this.sliderElem.addEventListener("mousedown", this.mousedown, false);
+
+			// Bind window handlers
+			this.resize = this._resize.bind(this);
+			window.addEventListener("resize", this.resize, false);
 
 
 			// Bind tooltip-related handlers
@@ -691,8 +800,26 @@
 				this.showTooltip = this._showTooltip.bind(this);
 				this.hideTooltip = this._hideTooltip.bind(this);
 
-				this.sliderElem.addEventListener("mouseenter", this.showTooltip, false);
-				this.sliderElem.addEventListener("mouseleave", this.hideTooltip, false);
+				if (this.options.ticks_tooltip) {
+					var callbackHandle = this._addTickListener();
+					//create handle1 listeners and store references in map
+					var mouseEnter = callbackHandle.addMouseEnter(this, this.handle1);
+					var mouseLeave = callbackHandle.addMouseLeave(this, this.handle1);
+					this.handleCallbackMap.handle1 = {
+						mouseEnter: mouseEnter,
+						mouseLeave: mouseLeave
+					};
+					//create handle2 listeners and store references in map
+					mouseEnter = callbackHandle.addMouseEnter(this, this.handle2);
+					mouseLeave = callbackHandle.addMouseLeave(this, this.handle2);
+					this.handleCallbackMap.handle2 = {
+						mouseEnter: mouseEnter,
+						mouseLeave: mouseLeave
+					};
+				} else {
+					this.sliderElem.addEventListener("mouseenter", this.showTooltip, false);
+					this.sliderElem.addEventListener("mouseleave", this.hideTooltip, false);
+				}
 
 				this.handle1.addEventListener("focus", this.showTooltip, false);
 				this.handle1.addEventListener("blur", this.hideTooltip, false);
@@ -706,8 +833,10 @@
 			} else {
 				this.disable();
 			}
-		}
 
+        }
+
+        
 
 
 		/*************************************************
@@ -725,7 +854,7 @@
 
 			defaultOptions: {
 				id: "",
-			  min: 0,
+				min: 0,
 				max: 10,
 				step: 1,
 				precision: 0,
@@ -737,6 +866,7 @@
 				tooltip_split: false,
 				handle: 'round',
 				reversed: false,
+				rtl: 'auto',
 				enabled: true,
 				formatter: function(val) {
 					if (Array.isArray(val)) {
@@ -750,10 +880,12 @@
 				ticks_positions: [],
 				ticks_labels: [],
 				ticks_snap_bounds: 0,
+				ticks_tooltip: false,
 				scale: 'linear',
 				focus: false,
 				tooltip_position: null,
-				labelledby: null
+				labelledby: null,
+				rangeHighlights: []
 			},
 
 			getElement: function() {
@@ -808,6 +940,7 @@
 				this._layout();
 				var newValue = this.options.range ? this._state.value : this._state.value[0];
 
+				this._setDataVal(newValue);
 				if(triggerSlideEvent === true) {
 					this._trigger('slide', newValue);
 				}
@@ -817,7 +950,6 @@
 						newValue: newValue
 					});
 				}
-				this._setDataVal(newValue);
 
 				return this;
 			},
@@ -882,14 +1014,14 @@
 				return this;
 			},
 
-      off: function(evt, callback) {
-          if($) {
-              this.$element.off(evt, callback);
-              this.$sliderElem.off(evt, callback);
-          } else {
-              this._unbindNonQueryEventHandler(evt, callback);
-          }
-      },
+			off: function(evt, callback) {
+				if($) {
+					this.$element.off(evt, callback);
+					this.$sliderElem.off(evt, callback);
+				} else {
+					this._unbindNonQueryEventHandler(evt, callback);
+				}
+			},
 
 			getAttribute: function(attribute) {
 				if(attribute) {
@@ -915,9 +1047,29 @@
 			},
 
 			relayout: function() {
+				this._resize();
 				this._layout();
 				return this;
 			},
+
+
+            formattedToolTip: function () {
+                var tooltip_p1 = '';
+                var tooltip_p2 = '';
+                var BeforeToolTip = this.element.getAttribute('data-tooltip-before');
+                var AfterToolTip = this.element.getAttribute('data-tooltip-after');
+                if (BeforeToolTip != null){
+                    tooltip_p1 += BeforeToolTip + ' ';
+                    tooltip_p2 += BeforeToolTip + ' ';
+                }
+                tooltip_p1 += this._state.value[0];
+                tooltip_p2 += this._state.value[1];
+                if (AfterToolTip != null) {
+                    tooltip_p1 += ' '+ AfterToolTip;
+                    tooltip_p2 += ' '+ AfterToolTip;
+                }
+                return tooltip_p1 +" - "+ tooltip_p2;
+            },
 
 			/******************************+
 
@@ -926,13 +1078,29 @@
 			- Any method that is not part of the public interface.
 			- Place it underneath this comment block and write its signature like so:
 
-			  					_fnName : function() {...}
+				_fnName : function() {...}
 
 			********************************/
 			_removeSliderEventHandlers: function() {
 				// Remove keydown event listeners
 				this.handle1.removeEventListener("keydown", this.handle1Keydown, false);
 				this.handle2.removeEventListener("keydown", this.handle2Keydown, false);
+
+				//remove the listeners from the ticks and handles if they had their own listeners
+				if (this.options.ticks_tooltip) {
+					var ticks = this.ticksContainer.getElementsByClassName('slider-tick');
+					for(var i = 0; i < ticks.length; i++ ){
+						ticks[i].removeEventListener('mouseenter', this.ticksCallbackMap[i].mouseEnter, false);
+						ticks[i].removeEventListener('mouseleave', this.ticksCallbackMap[i].mouseLeave, false);
+					}
+					this.handle1.removeEventListener('mouseenter', this.handleCallbackMap.handle1.mouseEnter, false);
+					this.handle2.removeEventListener('mouseenter', this.handleCallbackMap.handle2.mouseEnter, false);
+					this.handle1.removeEventListener('mouseleave', this.handleCallbackMap.handle1.mouseLeave, false);
+					this.handle2.removeEventListener('mouseleave', this.handleCallbackMap.handle2.mouseLeave, false);
+				}
+
+				this.handleCallbackMap = null;
+				this.ticksCallbackMap = null;
 
 				if (this.showTooltip) {
 					this.handle1.removeEventListener("focus", this.showTooltip, false);
@@ -950,8 +1118,12 @@
 				if (this.hideTooltip) {
 					this.sliderElem.removeEventListener("mouseleave", this.hideTooltip, false);
 				}
-				this.sliderElem.removeEventListener("touchstart", this.mousedown, false);
+				this.sliderElem.removeEventListener("touchstart", this.touchstart, false);
+				this.sliderElem.removeEventListener("touchmove", this.touchmove, false);
 				this.sliderElem.removeEventListener("mousedown", this.mousedown, false);
+
+				// Remove window event listener
+				window.removeEventListener("resize", this.resize, false);
 			},
 			_bindNonQueryEventHandler: function(evt, callback) {
 				if(this.eventToCallbackMap[evt] === undefined) {
@@ -959,34 +1131,34 @@
 				}
 				this.eventToCallbackMap[evt].push(callback);
 			},
-      _unbindNonQueryEventHandler: function(evt, callback) {
-          var callbacks = this.eventToCallbackMap[evt];
-          if(callbacks !== undefined) {
-              for (var i = 0; i < callbacks.length; i++) {
-                  if (callbacks[i] === callback) {
-                      callbacks.splice(i, 1);
-                      break;
-                  }
-              }
-          }
-      },
+			_unbindNonQueryEventHandler: function(evt, callback) {
+				var callbacks = this.eventToCallbackMap[evt];
+				if(callbacks !== undefined) {
+					for (var i = 0; i < callbacks.length; i++) {
+						if (callbacks[i] === callback) {
+							callbacks.splice(i, 1);
+							break;
+						}
+					}
+				}
+			},
 			_cleanUpEventCallbacksMap: function() {
 				var eventNames = Object.keys(this.eventToCallbackMap);
 				for(var i = 0; i < eventNames.length; i++) {
 					var eventName = eventNames[i];
-					this.eventToCallbackMap[eventName] = null;
+					delete this.eventToCallbackMap[eventName];
 				}
 			},
 			_showTooltip: function() {
 				if (this.options.tooltip_split === false ){
-        	this._addClass(this.tooltip, 'in');
-        	this.tooltip_min.style.display = 'none';
-        	this.tooltip_max.style.display = 'none';
-		    } else {
-          this._addClass(this.tooltip_min, 'in');
-          this._addClass(this.tooltip_max, 'in');
-          this.tooltip.style.display = 'none';
-		    }
+					this._addClass(this.tooltip, 'in');
+					this.tooltip_min.style.display = 'none';
+					this.tooltip_max.style.display = 'none';
+			    } else {
+					this._addClass(this.tooltip_min, 'in');
+					this._addClass(this.tooltip_max, 'in');
+					this.tooltip.style.display = 'none';
+				}
 				this._state.over = true;
 			},
 			_hideTooltip: function() {
@@ -996,6 +1168,49 @@
 					this._removeClass(this.tooltip_max, 'in');
 				}
 				this._state.over = false;
+			},
+			_setToolTipOnMouseOver: function _setToolTipOnMouseOver(tempState){
+				var formattedTooltipVal = this.options.formatter(!tempState ? this._state.value[0]: tempState.value[0]);
+				var positionPercentages = !tempState ? getPositionPercentages(this._state, this.options.reversed) : getPositionPercentages(tempState, this.options.reversed);
+				this._setText(this.tooltipInner, formattedTooltipVal);
+
+				this.tooltip.style[this.stylePos] = `${positionPercentages[0]}%`;
+				if (this.options.orientation === 'vertical') {
+					this._css(this.tooltip, `margin-${this.stylePos}`, `${-this.tooltip.offsetHeight / 2}px`);
+				} else {
+					this._css(this.tooltip, `margin-${this.stylePos}`, `${-this.tooltip.offsetWidth / 2}px`);
+				}
+
+				function getPositionPercentages(state, reversed){
+					if (reversed) {
+						return [100 - state.percentage[0], this.options.range ? 100 - state.percentage[1] : state.percentage[1]];
+					}
+					return [state.percentage[0], state.percentage[1]];
+				}
+			},
+			_addTickListener: function _addTickListener() {
+				return {
+					addMouseEnter: function(reference, tick, index){
+						var enter = function(){
+							var tempState = reference._state;
+							var idString = index >= 0 ? index : this.attributes['aria-valuenow'].value;
+							var hoverIndex = parseInt(idString, 10);
+							tempState.value[0] = hoverIndex;
+							tempState.percentage[0] = reference.options.ticks_positions[hoverIndex];
+							reference._setToolTipOnMouseOver(tempState);
+							reference._showTooltip();
+						};
+						tick.addEventListener("mouseenter", enter, false);
+						return enter;
+					},
+					addMouseLeave: function(reference, tick){
+						var leave = function(){
+							reference._hideTooltip();
+						};
+						tick.addEventListener("mouseleave", leave, false);
+						return leave;
+					}
+				};
 			},
 			_layout: function() {
 				var positionPercentages;
@@ -1007,24 +1222,71 @@
 					positionPercentages = [ this._state.percentage[0], this._state.percentage[1] ];
 				}
 
-				this.handle1.style[this.stylePos] = positionPercentages[0]+'%';
+				this.handle1.style[this.stylePos] = `${positionPercentages[0]}%`;
 				this.handle1.setAttribute('aria-valuenow', this._state.value[0]);
+				if (isNaN(this.options.formatter(this._state.value[0])) ) {
+					this.handle1.setAttribute('aria-valuetext', this.options.formatter(this._state.value[0]));
+				}
 
-				this.handle2.style[this.stylePos] = positionPercentages[1]+'%';
+				this.handle2.style[this.stylePos] =`${positionPercentages[1]}%`;
 				this.handle2.setAttribute('aria-valuenow', this._state.value[1]);
+				if (isNaN(this.options.formatter(this._state.value[1])) ) {
+					this.handle2.setAttribute('aria-valuetext', this.options.formatter(this._state.value[1]));
+				}
+
+				/* Position highlight range elements */
+				if (this.rangeHighlightElements.length > 0 && Array.isArray(this.options.rangeHighlights) && this.options.rangeHighlights.length > 0) {
+					for (let i = 0; i < this.options.rangeHighlights.length; i++) {
+						var startPercent = this._toPercentage(this.options.rangeHighlights[i].start);
+						var endPercent = this._toPercentage(this.options.rangeHighlights[i].end);
+
+						if (this.options.reversed) {
+							var sp = 100-endPercent;
+							endPercent = 100-startPercent;
+							startPercent = sp;
+						}
+
+						var currentRange = this._createHighlightRange(startPercent, endPercent);
+
+						if (currentRange) {
+							if (this.options.orientation === 'vertical') {
+								this.rangeHighlightElements[i].style.top = `${currentRange.start}%`;
+								this.rangeHighlightElements[i].style.height = `${currentRange.size}%`;
+							} else {
+								if(this.options.rtl){
+									this.rangeHighlightElements[i].style.right = `${currentRange.start}%`;
+								} else {
+									this.rangeHighlightElements[i].style.left = `${currentRange.start}%`;
+								}
+								this.rangeHighlightElements[i].style.width = `${currentRange.size}%`;
+							}
+						} else {
+							this.rangeHighlightElements[i].style.display = "none";
+						}
+					}
+				}
 
 				/* Position ticks and labels */
 				if (Array.isArray(this.options.ticks) && this.options.ticks.length > 0) {
 
 					var styleSize = this.options.orientation === 'vertical' ? 'height' : 'width';
-					var styleMargin = this.options.orientation === 'vertical' ? 'marginTop' : 'marginLeft';
+					var styleMargin;
+					if( this.options.orientation === 'vertical' ){
+						styleMargin='marginTop';
+					}else {
+						if( this.options.rtl ){
+							styleMargin='marginRight';
+						} else {
+							styleMargin='marginLeft';
+						}
+					}
 					var labelSize = this._state.size / (this.options.ticks.length - 1);
 
 					if (this.tickLabelContainer) {
 						var extraMargin = 0;
 						if (this.options.ticks_positions.length === 0) {
 							if (this.options.orientation !== 'vertical') {
-								this.tickLabelContainer.style[styleMargin] = -labelSize/2 + 'px';
+								this.tickLabelContainer.style[styleMargin] = `${ -labelSize/2 }px`;
 							}
 
 							extraMargin = this.tickLabelContainer.offsetHeight;
@@ -1037,7 +1299,7 @@
 							}
 						}
 						if (this.options.orientation === 'horizontal') {
-							this.sliderElem.style.marginBottom = extraMargin + 'px';
+							this.sliderElem.style.marginBottom = `${ extraMargin }px`;
 						}
 					}
 					for (var i = 0; i < this.options.ticks.length; i++) {
@@ -1048,7 +1310,7 @@
 							percentage = 100 - percentage;
 						}
 
-						this.ticks[i].style[this.stylePos] = percentage + '%';
+						this.ticks[i].style[this.stylePos] = `${ percentage }%`;
 
 						/* Set class labels to denote whether ticks are in the selection */
 						this._removeClass(this.ticks[i], 'in-selection');
@@ -1063,15 +1325,19 @@
 						}
 
 						if (this.tickLabels[i]) {
-							this.tickLabels[i].style[styleSize] = labelSize + 'px';
+							this.tickLabels[i].style[styleSize] = `${labelSize}px`;
 
 							if (this.options.orientation !== 'vertical' && this.options.ticks_positions[i] !== undefined) {
 								this.tickLabels[i].style.position = 'absolute';
-								this.tickLabels[i].style[this.stylePos] = percentage + '%';
+								this.tickLabels[i].style[this.stylePos] = `${percentage}%`;
 								this.tickLabels[i].style[styleMargin] = -labelSize/2 + 'px';
 							} else if (this.options.orientation === 'vertical') {
-								this.tickLabels[i].style['marginLeft'] =  this.sliderElem.offsetWidth + 'px';
-								this.tickLabelContainer.style['marginTop'] = this.sliderElem.offsetWidth / 2 * -1 + 'px';
+								if(this.options.rtl){
+									this.tickLabels[i].style['marginRight'] = `${this.sliderElem.offsetWidth }px`;
+								}else{
+									this.tickLabels[i].style['marginLeft'] = `${this.sliderElem.offsetWidth }px`;
+								}
+								this.tickLabelContainer.style[styleMargin] = this.sliderElem.offsetWidth / 2 * -1 + 'px';
 							}
 						}
 					}
@@ -1079,21 +1345,16 @@
 
 				var formattedTooltipVal;
 
-				if (this.options.range) {
-					formattedTooltipVal = this.options.formatter(this._state.value);
+                if (this.options.range) {
+        
+                    formattedTooltipVal = this.formattedToolTip(); 
 					this._setText(this.tooltipInner, formattedTooltipVal);
-					this.tooltip.style[this.stylePos] = (positionPercentages[1] + positionPercentages[0])/2 + '%';
+					this.tooltip.style[this.stylePos] = `${ (positionPercentages[1] + positionPercentages[0])/2 }%`;
 
 					if (this.options.orientation === 'vertical') {
-						this._css(this.tooltip, 'margin-top', -this.tooltip.offsetHeight / 2 + 'px');
+						this._css(this.tooltip, `margin-${this.stylePos}`, `${ -this.tooltip.offsetHeight / 2 }px`);
 					} else {
-						this._css(this.tooltip, 'margin-left', -this.tooltip.offsetWidth / 2 + 'px');
-					}
-
-					if (this.options.orientation === 'vertical') {
-						this._css(this.tooltip, 'margin-top', -this.tooltip.offsetHeight / 2 + 'px');
-					} else {
-						this._css(this.tooltip, 'margin-left', -this.tooltip.offsetWidth / 2 + 'px');
+						this._css(this.tooltip, `margin-${this.stylePos}`, `${ -this.tooltip.offsetWidth / 2 }px`);
 					}
 
 					var innerTooltipMinText = this.options.formatter(this._state.value[0]);
@@ -1102,30 +1363,30 @@
 					var innerTooltipMaxText = this.options.formatter(this._state.value[1]);
 					this._setText(this.tooltipInner_max, innerTooltipMaxText);
 
-					this.tooltip_min.style[this.stylePos] = positionPercentages[0] + '%';
+					this.tooltip_min.style[this.stylePos] = `${ positionPercentages[0] }%`;
 
 					if (this.options.orientation === 'vertical') {
-						this._css(this.tooltip_min, 'margin-top', -this.tooltip_min.offsetHeight / 2 + 'px');
+						this._css(this.tooltip_min, `margin-${this.stylePos}`, `${ -this.tooltip_min.offsetHeight / 2  }px`);
 					} else {
-						this._css(this.tooltip_min, 'margin-left', -this.tooltip_min.offsetWidth / 2 + 'px');
+						this._css(this.tooltip_min, `margin-${this.stylePos}`, `${ -this.tooltip_min.offsetWidth / 2  }px`);
 					}
 
-					this.tooltip_max.style[this.stylePos] = positionPercentages[1] + '%';
+					this.tooltip_max.style[this.stylePos] = `${ positionPercentages[1] }%`;
 
 					if (this.options.orientation === 'vertical') {
-						this._css(this.tooltip_max, 'margin-top', -this.tooltip_max.offsetHeight / 2 + 'px');
+						this._css(this.tooltip_max, `margin-${this.stylePos}`, `${ -this.tooltip_max.offsetHeight / 2 }px`);
 					} else {
-						this._css(this.tooltip_max, 'margin-left', -this.tooltip_max.offsetWidth / 2 + 'px');
+						this._css(this.tooltip_max, `margin-${this.stylePos}`, `${ -this.tooltip_max.offsetWidth / 2 }px`);
 					}
 				} else {
 					formattedTooltipVal = this.options.formatter(this._state.value[0]);
 					this._setText(this.tooltipInner, formattedTooltipVal);
 
-					this.tooltip.style[this.stylePos] = positionPercentages[0] + '%';
+					this.tooltip.style[this.stylePos] = `${ positionPercentages[0] }%`;
 					if (this.options.orientation === 'vertical') {
-						this._css(this.tooltip, 'margin-top', -this.tooltip.offsetHeight / 2 + 'px');
+						this._css(this.tooltip, `margin-${this.stylePos}`, `${ -this.tooltip.offsetHeight / 2 }px`);
 					} else {
-						this._css(this.tooltip, 'margin-left', -this.tooltip.offsetWidth / 2 + 'px');
+						this._css(this.tooltip, `margin-${this.stylePos}`, `${ -this.tooltip.offsetWidth / 2 }px`);
 					}
 				}
 
@@ -1140,28 +1401,77 @@
 					this.trackHigh.style.height = (100 - Math.min(positionPercentages[0], positionPercentages[1]) - Math.abs(positionPercentages[0] - positionPercentages[1])) +'%';
 				}
 				else {
-					this.trackLow.style.left = '0';
+					if(this.stylePos==='right') {
+						this.trackLow.style.right = '0';
+					} else {
+						this.trackLow.style.left = '0';
+					}
 					this.trackLow.style.width = Math.min(positionPercentages[0], positionPercentages[1]) +'%';
 
-					this.trackSelection.style.left = Math.min(positionPercentages[0], positionPercentages[1]) +'%';
+					if(this.stylePos==='right') {
+						this.trackSelection.style.right = Math.min(positionPercentages[0], positionPercentages[1]) + '%';
+					} else {
+						this.trackSelection.style.left = Math.min(positionPercentages[0], positionPercentages[1]) + '%';
+					}
 					this.trackSelection.style.width = Math.abs(positionPercentages[0] - positionPercentages[1]) +'%';
 
-					this.trackHigh.style.right = '0';
+					if(this.stylePos==='right') {
+						this.trackHigh.style.left = '0';
+					} else {
+						this.trackHigh.style.right = '0';
+					}
 					this.trackHigh.style.width = (100 - Math.min(positionPercentages[0], positionPercentages[1]) - Math.abs(positionPercentages[0] - positionPercentages[1])) +'%';
 
-			        var offset_min = this.tooltip_min.getBoundingClientRect();
-			        var offset_max = this.tooltip_max.getBoundingClientRect();
+					var offset_min = this.tooltip_min.getBoundingClientRect();
+					var offset_max = this.tooltip_max.getBoundingClientRect();
 
-			        if (offset_min.right > offset_max.left) {
-			            this._removeClass(this.tooltip_max, 'top');
-			            this._addClass(this.tooltip_max, 'bottom');
-			            this.tooltip_max.style.top = 18 + 'px';
-			        } else {
-			            this._removeClass(this.tooltip_max, 'bottom');
-			            this._addClass(this.tooltip_max, 'top');
-			            this.tooltip_max.style.top = this.tooltip_min.style.top;
-			        }
+					if (this.options.tooltip_position === 'bottom') {
+						if (offset_min.right > offset_max.left) {
+							this._removeClass(this.tooltip_max, 'bottom');
+							this._addClass(this.tooltip_max, 'top');
+							this.tooltip_max.style.top = '';
+							this.tooltip_max.style.bottom = 22 + 'px';
+						} else {
+							this._removeClass(this.tooltip_max, 'top');
+							this._addClass(this.tooltip_max, 'bottom');
+							this.tooltip_max.style.top = this.tooltip_min.style.top;
+							this.tooltip_max.style.bottom = '';
+						}
+					} else {
+						if (offset_min.right > offset_max.left) {
+							this._removeClass(this.tooltip_max, 'top');
+							this._addClass(this.tooltip_max, 'bottom');
+							this.tooltip_max.style.top = 18 + 'px';
+						} else {
+							this._removeClass(this.tooltip_max, 'bottom');
+							this._addClass(this.tooltip_max, 'top');
+							this.tooltip_max.style.top = this.tooltip_min.style.top;
+						}
+					}
 				}
+			},
+			_createHighlightRange: function (start, end) {
+				if (this._isHighlightRange(start, end)) {
+					if (start > end) {
+						return {'start': end, 'size': start - end};
+					}
+					return {'start': start, 'size': end - start};
+				}
+				return null;
+			},
+			_isHighlightRange: function (start, end) {
+				if (0 <= start && start <= 100 && 0 <= end && end <= 100) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			},
+			_resize: function (ev) {
+				/*jshint unused:false*/
+				this._state.offset = this._offset(this.sliderElem);
+				this._state.size = this.sliderElem[this.sizePos];
+				this._layout();
 			},
 			_removeProperty: function(element, prop) {
 				if (element.style.removeProperty) {
@@ -1184,6 +1494,7 @@
 					var diff1 = Math.abs(this._state.percentage[0] - percentage);
 					var diff2 = Math.abs(this._state.percentage[1] - percentage);
 					this._state.dragged = (diff1 < diff2) ? 0 : 1;
+					this._adjustPercentageForRangeSliders(percentage);
 				} else {
 					this._state.dragged = 0;
 				}
@@ -1223,13 +1534,23 @@
 				this._setDataVal(newValue);
 				this.setValue(newValue, false, true);
 
-				this._pauseEvent(ev);
+				ev.returnValue = false;
 
 				if (this.options.focus) {
 					this._triggerFocusOnHandle(this._state.dragged);
 				}
 
 				return true;
+			},
+			_touchstart: function(ev) {
+				if (ev.changedTouches === undefined) {
+					this._mousedown(ev);
+					return;
+				}
+
+				var touch = ev.changedTouches[0];
+				this.touchX = touch.pageX;
+				this.touchY = touch.pageY;
 			},
 			_triggerFocusOnHandle: function(handleIdx) {
 				if(handleIdx === 0) {
@@ -1262,7 +1583,7 @@
 				// use natural arrow keys instead of from min to max
 				if (this.options.natural_arrow_keys) {
 					var ifVerticalAndNotReversed = (this.options.orientation === 'vertical' && !this.options.reversed);
-					var ifHorizontalAndReversed = (this.options.orientation === 'horizontal' && this.options.reversed);
+					var ifHorizontalAndReversed = (this.options.orientation === 'horizontal' && this.options.reversed); // @todo control with rtl
 
 					if (ifVerticalAndNotReversed || ifHorizontalAndReversed) {
 						dir = -dir;
@@ -1270,9 +1591,13 @@
 				}
 
 				var val = this._state.value[handleIdx] + dir * this.options.step;
+				const percentage = (val / this.options.max) * 100;
+				this._state.keyCtrl = handleIdx;
 				if (this.options.range) {
-					val = [ (!handleIdx) ? val : this._state.value[0],
-						    ( handleIdx) ? val : this._state.value[1]];
+					this._adjustPercentageForRangeSliders(percentage);
+					const val1 = (!this._state.keyCtrl) ? val : this._state.value[0];
+					const val2 = (this._state.keyCtrl) ? val : this._state.value[1];
+					val = [ val1, val2];
 				}
 
 				this._trigger('slideStart', val);
@@ -1284,6 +1609,7 @@
 				this._layout();
 
 				this._pauseEvent(ev);
+				delete this._state.keyCtrl;
 
 				return false;
 			},
@@ -1291,11 +1617,11 @@
 				if(ev.stopPropagation) {
 					ev.stopPropagation();
 				}
-			    if(ev.preventDefault) {
-			    	ev.preventDefault();
-			    }
-			    ev.cancelBubble=true;
-			    ev.returnValue=false;
+				if(ev.preventDefault) {
+					ev.preventDefault();
+				}
+				ev.cancelBubble=true;
+				ev.returnValue=false;
 			},
 			_mousemove: function(ev) {
 				if(!this._state.enabled) {
@@ -1312,6 +1638,27 @@
 
 				return false;
 			},
+			_touchmove: function(ev) {
+				if (ev.changedTouches === undefined) {
+					return;
+				}
+
+				var touch = ev.changedTouches[0];
+
+				var xDiff = touch.pageX - this.touchX;
+				var yDiff = touch.pageY - this.touchY;
+
+				if (!this._state.inDrag) {
+					// Vertical Slider
+					if (this.options.orientation === 'vertical' && (xDiff <= 5 && xDiff >= -5) && (yDiff >=15 || yDiff <= -15)) {
+						this._mousedown(ev);
+					}
+					// Horizontal slider.
+					else if ((yDiff <= 5 && yDiff >= -5) && (xDiff >= 15 || xDiff <= -15)) {
+						this._mousedown(ev);
+					}
+				}
+			},
 			_adjustPercentageForRangeSliders: function(percentage) {
 				if (this.options.range) {
 					var precision = this._getNumDigitsAfterDecimalPlace(percentage);
@@ -1324,6 +1671,16 @@
 						this._state.percentage[1] = this._state.percentage[0];
 						this._state.dragged = 0;
 					}
+					else if (this._state.keyCtrl === 0 && (((this._state.value[1] / this.options.max) * 100) < percentage)) {
+						this._state.percentage[0] = this._state.percentage[1];
+						this._state.keyCtrl = 1;
+						this.handle2.focus();
+					}
+					else if (this._state.keyCtrl === 1 && (((this._state.value[0] / this.options.max) * 100) > percentage)) {
+						this._state.percentage[1] = this._state.percentage[0];
+						this._state.keyCtrl = 0;
+						this.handle1.focus();
+					}
 				}
 			},
 			_mouseup: function() {
@@ -1335,9 +1692,9 @@
 					document.removeEventListener("touchmove", this.mousemove, false);
 					document.removeEventListener("touchend", this.mouseup, false);
 				}
-                // Unbind mouse event handlers:
-                document.removeEventListener("mousemove", this.mousemove, false);
-                document.removeEventListener("mouseup", this.mouseup, false);
+				// Unbind mouse event handlers:
+				document.removeEventListener("mousemove", this.mousemove, false);
+				document.removeEventListener("mouseup", this.mouseup, false);
 
 				this._state.inDrag = false;
 				if (this._state.over === false) {
@@ -1355,16 +1712,16 @@
 				var val;
 				if (this.options.range) {
 					val = [this.options.min,this.options.max];
-			        if (this._state.percentage[0] !== 0){
-			            val[0] = this._toValue(this._state.percentage[0]);
-			            val[0] = this._applyPrecision(val[0]);
-			        }
-			        if (this._state.percentage[1] !== 100){
-			            val[1] = this._toValue(this._state.percentage[1]);
-			            val[1] = this._applyPrecision(val[1]);
-			        }
+					if (this._state.percentage[0] !== 0){
+						val[0] = this._toValue(this._state.percentage[0]);
+						val[0] = this._applyPrecision(val[0]);
+					}
+					if (this._state.percentage[1] !== 100){
+						val[1] = this._toValue(this._state.percentage[1]);
+						val[1] = this._applyPrecision(val[1]);
+					}
 				} else {
-		            val = this._toValue(this._state.percentage[0]);
+					val = this._toValue(this._state.percentage[0]);
 					val = parseFloat(val);
 					val = this._applyPrecision(val);
 				}
@@ -1409,6 +1766,9 @@
 				var eventPosition = ev[this.mousePos];
 				var sliderOffset = this._state.offset[this.stylePos];
 				var distanceToSlide = eventPosition - sliderOffset;
+				if(this.stylePos==='right') {
+					distanceToSlide = -distanceToSlide;
+				}
 				// Calculate what percent of the length the slider handle has slid
 				var percentage = (distanceToSlide / this._state.size) * 100;
 				percentage = Math.round(percentage / this._state.percentage[2]) * this._state.percentage[2];
@@ -1422,13 +1782,13 @@
 				return Math.max(0, Math.min(100, percentage));
 			},
 			_validateInputValue: function(val) {
-				if (typeof val === 'number') {
-					return val;
+				if (!isNaN(+val)) {
+					return +val;
 				} else if (Array.isArray(val)) {
 					this._validateArray(val);
 					return val;
 				} else {
-					throw new Error( ErrorMsgs.formatInvalidInputErrorMsg(val) );
+					throw new Error(ErrorMsgs.formatInvalidInputErrorMsg(val));
 				}
 			},
 			_validateArray: function(val) {
@@ -1440,7 +1800,7 @@
 			_setDataVal: function(val) {
 				this.element.setAttribute('data-value', val);
 				this.element.setAttribute('value', val);
-        this.element.value = val;
+				this.element.value = val;
 			},
 			_trigger: function(evt, val) {
 				val = (val || val === 0) ? val : undefined;
@@ -1471,11 +1831,11 @@
 				this.$sliderElem.off();
 			},
 			_setText: function(element, text) {
-				if(typeof element.innerText !== "undefined") {
-			 		element.innerText = text;
-			 	} else if(typeof element.textContent !== "undefined") {
-			 		element.textContent = text;
-			 	}
+				if(typeof element.textContent !== "undefined") {
+					element.textContent = text;
+				} else if(typeof element.innerText !== "undefined") {
+					element.innerText = text;
+				}
 			},
 			_removeClass: function(element, classString) {
 				var classes = classString.split(" ");
@@ -1508,28 +1868,35 @@
 			_offsetLeft: function(obj){
 				return obj.getBoundingClientRect().left;
 			},
+			_offsetRight: function(obj){
+				return obj.getBoundingClientRect().right;
+			},
 			_offsetTop: function(obj){
 				var offsetTop = obj.offsetTop;
 				while((obj = obj.offsetParent) && !isNaN(obj.offsetTop)){
 					offsetTop += obj.offsetTop;
+					if( obj.tagName !== 'BODY') {
+						offsetTop -= obj.scrollTop;
+					}
 				}
 				return offsetTop;
 			},
-		    _offset: function (obj) {
+			_offset: function (obj) {
 				return {
 					left: this._offsetLeft(obj),
+					right: this._offsetRight(obj),
 					top: this._offsetTop(obj)
 				};
 		    },
 			_css: function(elementRef, styleName, value) {
-                if ($) {
-                    $.style(elementRef, styleName, value);
-                } else {
-                    var style = styleName.replace(/^-ms-/, "ms-").replace(/-([\da-z])/gi, function (all, letter) {
-                        return letter.toUpperCase();
-                    });
-                    elementRef.style[style] = value;
-                }
+				if ($) {
+					$.style(elementRef, styleName, value);
+				} else {
+					var style = styleName.replace(/^-ms-/, "ms-").replace(/-([\da-z])/gi, function (all, letter) {
+						return letter.toUpperCase();
+					});
+					elementRef.style[style] = value;
+				}
 			},
 			_toValue: function(percentage) {
 				return this.options.scale.toValue.apply(this, [percentage]);
@@ -1540,7 +1907,16 @@
 			_setTooltipPosition: function(){
 				var tooltips = [this.tooltip, this.tooltip_min, this.tooltip_max];
 				if (this.options.orientation === 'vertical'){
-					var tooltipPos = this.options.tooltip_position || 'right';
+					var tooltipPos;
+					if(this.options.tooltip_position) {
+						tooltipPos = this.options.tooltip_position;
+					} else {
+						if(this.options.rtl) {
+							tooltipPos = 'left';
+						} else {
+							tooltipPos = 'right';
+						}
+					}
 					var oppositeSide = (tooltipPos === 'left') ? 'right' : 'left';
 					tooltips.forEach(function(tooltip){
 						this._addClass(tooltip, tooltipPos);
@@ -1565,9 +1941,25 @@
 			Attach to global namespace
 
 		*********************************/
-		if($) {
-			var namespace = $.fn.slider ? 'bootstrapSlider' : 'slider';
-			$.bridget(namespace, Slider);
+		if($ && $.fn) {
+			let autoRegisterNamespace;
+
+			if (!$.fn.slider) {
+				$.bridget(NAMESPACE_MAIN, Slider);
+				autoRegisterNamespace = NAMESPACE_MAIN;
+			}
+			else {
+				if (windowIsDefined) {
+					window.console.warn("bootstrap-slider.js - WARNING: $.fn.slider namespace is already bound. Use the $.fn.bootstrapSlider namespace instead.");
+				}
+				autoRegisterNamespace = NAMESPACE_ALTERNATE;
+			}
+			$.bridget(NAMESPACE_ALTERNATE, Slider);
+
+			// Auto-Register data-provide="slider" Elements
+			$(function() {
+				$("input[data-provide=slider]")[autoRegisterNamespace]();
+			});
 		}
 
 	})( $ );
