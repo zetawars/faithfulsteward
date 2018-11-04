@@ -68,3 +68,7 @@ Route::get('/report/userreport','ReportController@UserReport');
 
 
 Route::get('/setting','SettingController@Index');
+//................................................................
+Route::get('/instructor/index','Instructor\DashboardController@Index');
+
+Route::get('/instructor/courses','Instructor\CoursesController@Index');

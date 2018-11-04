@@ -485,6 +485,18 @@
                          </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('/')}}/instructor/index">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('/')}}/instructor/courses">
+                        <i class="fa fa-dashboard"></i> <span>courses</span>
+
+                    </a>
+                </li>
 
                 {{--<ul class="treeview-menu">--}}
                 {{--<li class="active"><a href="index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>--}}

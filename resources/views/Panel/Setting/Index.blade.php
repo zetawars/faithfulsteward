@@ -62,7 +62,7 @@
 						<br>
 						<div class="row">
 							<div class="col-md-3">
-								<h4>Registration Field</h3>
+								<h3>Registration Field</h3>
 									<div class="row">
 										<div class="col-md-6">
 											<label>First Name</label>
