@@ -12,50 +12,43 @@
         </section>
 
         <section class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <hr>
-                    <form method="post" action="">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Category Name</label>
-                                    <input class="fom-control" name="" value=""/>
-                                </div>
-                            </div>
+            <div class="box">
+                <div class="box-header">
+
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label>Category Name</label>
+                            <input type="text" class="form-control"/>
                         </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                        <label>Parent Category</label>
-                                        <select class="form-control">
-                                            <option>select</option>
-                                            <option>option 2</option>
-                                            <option>option 3</option>
-                                            <option>option 4</option>
-                                            <option>option 5</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <br/>
+                        <div class="col-md-3">
+                            <label>Parent Category</label>
+                            <select class="form-control">
+                                <option>Select</option>
+                                <option>Finance</option>
+                                <option>Relationship</option>
+                                <option>Calling</option>
 
-
-
-                        <div class="row">
-                            <div class="col-md-2">
-                                <button type="button" name="btn" class="btn btn-default">Add Category</button>
-                            </div>
+                            </select>
                         </div>
+                    </div>
+                    <div class="row">
+                        <br/>
+                        <div class="col-md-3">
+                           <button type="button" class="btn btn-primary">Add Cagtegory</button>
 
 
-
-
-                    </form>
-
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
 
                 </div>
             </div>
-
 
         </section>
     </div>

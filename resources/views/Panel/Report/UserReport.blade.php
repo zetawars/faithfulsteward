@@ -38,79 +38,89 @@
 
 
 
-
-                    <div class="row">
-                        <div class="col-md-1">
-                            <i class="fa fa-user headingicons"></i>
-
-                        </div>
-
-                        <div class="col-md-2">
-                            <span class="text">Thomas Wilmot Kofi</span>
-                            <span class="text">tk.wilmot@rogers.com</span>
-                        </div>
-
-
-                        </div>
-                    <br>
-                        <div class="row">
-
-                        <div class="col-md-6">
-                            <label>
-                                <input type="checkbox" class="form-group checked"> Admin
-                            </label>
-
-                                <label>
-                                    <input type="checkbox" class="form-group checked"> Learner
-                                </label>
-
-
-                                <label>
-                                    <input type="checkbox" class="form-group checked"> Instructor
-                                </label>
-
-
-                                <label>
-                                    <input type="checkbox" class="form-group checked"> Accountability Partner
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                <div class="row">
-                    <div class="col-md-4">
-
-                        <!-- small box -->
-                        <div class="small-box bg-gray">
-                            <div class="inner">
-                                <h3>Active</h3>
-
-                                <i class="fa fa-check"></i>
-                            </div>
-                            <div>
-                                {{--<i class="ion ion-bag"></i>--}}
-                            </div>
-                            {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
-                        </div>
-
-                    </div>
-                    <div class="col-md-4">
-
-                        <!-- small box -->
-                        <div class="small-box bg-gray">
-                            <div class="inner">
-                                <h3>Last Login</h3>
-
-                                <span>1 Week ago</span>
-                            </div>
-                            <div class="icon">
+                        <div class="box">
+                            <div class="box-header">
 
                             </div>
-                            {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
-                        </div>
 
-                    </div>
-                </div>
+                            <div class="box-body">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <i class="fa fa-user headingicons"></i>
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <span class="text">Thomas Wilmot Kofi</span>
+                                        <span class="text">tk.wilmot@rogers.com</span>
+                                    </div>
+
+
+                                </div>
+                                <br>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <label>
+                                            <input type="checkbox" class="form-group checked"> Admin
+                                        </label>
+
+                                        <label>
+                                            <input type="checkbox" class="form-group checked"> Learner
+                                        </label>
+
+
+                                        <label>
+                                            <input type="checkbox" class="form-group checked"> Instructor
+                                        </label>
+
+
+                                        <label>
+                                            <input type="checkbox" class="form-group checked"> Accountability Partner
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+
+                                    <!-- small box -->
+                                    <div class="small-box bg-gray">
+                                        <div class="inner">
+                                            <h3>Active</h3>
+
+                                            <i class="fa fa-check"></i>
+                                        </div>
+                                        <div>
+                                            {{--<i class="ion ion-bag"></i>--}}
+                                        </div>
+                                        {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+
+                                    <!-- small box -->
+                                    <div class="small-box bg-gray">
+                                        <div class="inner">
+                                            <h3>Last Login</h3>
+
+                                            <span>1 Week ago</span>
+                                        </div>
+                                        <div class="icon">
+
+                                        </div>
+                                        {{--<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>--}}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
+
+                            </div>
+                        </div>
 
 
                 </div>
@@ -138,6 +148,7 @@
 
                 <!-- /.tab-pane -->
             </div>
+
             <!-- /.tab-content -->
 
             <!-- nav-tabs-custom -->

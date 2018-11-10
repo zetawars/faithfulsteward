@@ -47,8 +47,12 @@
 		<div class="tab-content">
 
 			<div class="tab-pane active" id="GeneralTab">
-				<div class="form-group">
-					<div class="col-md-12">
+				<div class="box">
+					<div class="box-header">
+
+					</div>
+					<div class="box-body">
+
 						<div class="row">
 							<div class="col-md-3">
 								<label>Date format</label>
@@ -63,19 +67,19 @@
 						<div class="row">
 							<div class="col-md-3">
 								<h3>Registration Field</h3>
-									<div class="row">
-										<div class="col-md-6">
-											<label>First Name</label>
-											<input type="checkbox" name="firstname" id="firstname" value="option1" checked="">
-										</div>
+								<div class="row">
+									<div class="col-md-6">
+										<label>First Name</label>
+										<input type="checkbox" name="firstname" id="firstname" value="option1" checked="">
 									</div>
+								</div>
 
-									<div class="row">
-										<div class="col-md-12">
-											<label>Last Name</label>
-											<input type="checkbox" name="lastname" id="lastname" value="option1" checked="">
-										</div>
+								<div class="row">
+									<div class="col-md-12">
+										<label>Last Name</label>
+										<input type="checkbox" name="lastname" id="lastname" value="option1" checked="">
 									</div>
+								</div>
 							</div>
 						</div>
 						<!---->
@@ -109,6 +113,14 @@
 						</div>
 					</div>
 
+					<div class="box-footer">
+
+					</div>
+				</div>
+
+
+
+
 
 
 				</div>
@@ -116,7 +128,7 @@
 
 
 
-			</div>
+
 
 
 
@@ -714,239 +726,251 @@
 				<div class="tab-content">
 
 					<div class="tab-pane active" id="Points">
-						<div class="form-group">
-							<label>Points</label>
-							<div>
-								<label>off</label>
-								<label class="switch">
-									<input type="checkbox" />
-									<span class="slider"></span>
-								</label>
-								<label>on</label>
+						<div class="box">
+							<div class="box-header">
+
 							</div>
-						</div>
-
-
-						<div class="row">
-							<div class="col-md-4">
-								<div class="row">
-									<div class="col-md-5" style="margin-top:3px">
-										<input type="checkbox" /> Each login gives
+							<div class="box-body">
+								<div class="form-group">
+									<label>Points</label>
+									<div>
+										<label>off</label>
+										<label class="switch">
+											<input type="checkbox" />
+											<span class="slider"></span>
+										</label>
+										<label>on</label>
 									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="row">
+											<div class="col-md-5" style="margin-top:3px">
+												<input type="checkbox" /> Each login gives
+											</div>
+											<div class="col-md-6">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
+										</div>
+									</div>
+								</div>
+
+								<br />
+
+
+								<div class="row">
 									<div class="col-md-6">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
+										<div class="row">
+											<div class="col-md-5" style="margin-top:3px">
+												<input type="checkbox" /> Each Unit Completed gives
 											</div>
+											<div class="col-md-4">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
-
 								</div>
-							</div>
-						</div>
 
-						<br />
+								<br />
 
 
-						<div class="row">
-							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-5" style="margin-top:3px">
-										<input type="checkbox" /> Each Unit Completed gives
-									</div>
-									<div class="col-md-4">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-5" style="margin-top:3px">
+												<input type="checkbox" /> Each course completed gives
 											</div>
+											<div class="col-md-4">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
-
 								</div>
-							</div>
-						</div>
 
-						<br />
+								<br />
 
 
-						<div class="row">
-							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-5" style="margin-top:3px">
-										<input type="checkbox" /> Each course completed gives
-									</div>
-									<div class="col-md-4">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-8" style="margin-top:3px">
+												<input type="checkbox" /> Each Succesfull test completion gives
 											</div>
+											<div class="col-md-4">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
-
 								</div>
-							</div>
-						</div>
-
-						<br />
 
 
-						<div class="row">
-							<div class="col-md-6">
+								<br />
+
+
 								<div class="row">
-									<div class="col-md-8" style="margin-top:3px">
-										<input type="checkbox" /> Each Succesfull test completion gives
-									</div>
-									<div class="col-md-4">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-8" style="margin-top:3px">
+												<input type="checkbox" /> Each Perfect Score on a quiz/exam gives
 											</div>
+											<div class="col-md-4">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
-
 								</div>
-							</div>
-						</div>
+								<br />
 
 
-						<br />
-
-
-						<div class="row">
-							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-8" style="margin-top:3px">
-										<input type="checkbox" /> Each Perfect Score on a quiz/exam gives
-									</div>
-									<div class="col-md-4">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-8" style="margin-top:3px">
+												<input type="checkbox" /> Each upvoted answer, topic or comment gives
 											</div>
+											<div class="col-md-4">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
-
 								</div>
-							</div>
-						</div>
-						<br />
 
+								<br />
 
-						<div class="row">
-							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-8" style="margin-top:3px">
-										<input type="checkbox" /> Each upvoted answer, topic or comment gives
-									</div>
-									<div class="col-md-4">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-6" style="margin-top:3px">
+												<input type="checkbox" /> Each Question answered gives
 											</div>
+											<div class="col-md-4">
+												<div class="input-group">
+													<!-- /btn-group -->
+													<input type="number" class="form-control">
+													<div class="input-group-btn">
+														<button type="button" class="btn btn-default" disabled="">Points</button>
+													</div>
+												</div>
+											</div>
+
 										</div>
 									</div>
-
 								</div>
-							</div>
-						</div>
+								<div class="form-group">
+									<label>Badges</label>
+									<div>
+										<label>off</label>
+										<label class="switch">
+											<input type="checkbox" />
+											<span class="slider"></span>
+										</label>
+										<label>on</label>
+									</div>
+								</div>
 
-						<br />
-
-						<div class="row">
-							<div class="col-md-6">
 								<div class="row">
-									<div class="col-md-6" style="margin-top:3px">
-										<input type="checkbox" /> Each Question answered gives
+									<div class="col-md-12">
+										<div>Activity Badges (4, 8, 16, 32, 64, 128, 256, 512 Logins)</div>
+										<div>Learning Badges (1, 2, 4, 8, 16, 32, 64, 128 Completed Courses)</div>
+										<div>Test Badges (2, 4, 8, 16, 32, 64, 128, 256 passed tests)</div>
+										<div>Assignment Badges (1, 2, 4, 8, 16, 32, 64, 128 passed assignments)</div>
+										<div>Perfectionism Badges (1, 2, 4, 8 16, 32, 64, 128 tests or assignments with score 90%+)</div>
+										<div>Survey Badges (1, 2, 4, 8, 16, 32, 64, 128 completed surveys)</div>
+										<div>Communication Badges (2, 4, 8, 16, 32, 64, 128, 256 topic or comments)</div>
+										<div>Certification Badges (1, 2, 4, 8 16, 32, 64, 128, 256, 512 certifications)</div>
+
 									</div>
+
+								</div>
+
+								<br />
+								<div class="row">
 									<div class="col-md-4">
-										<div class="input-group">
-											<!-- /btn-group -->
-											<input type="number" class="form-control">
-											<div class="input-group-btn">
-												<button type="button" class="btn btn-default" disabled="">Points</button>
-											</div>
-										</div>
+										<a class="btn btn-default" href="#Badges" data-toggle="tab">
+											<i class="fa fa-trophy"></i> Customize Badges</a>
+									</div>
+
+								</div>
+
+								<br />
+								<div class="form-group">
+									<label>Leaderboard</label>
+									<div>
+										<label>off</label>
+										<label class="switch">
+											<input type="checkbox" />
+											<span class="slider"></span>
+										</label>
+										<label>on</label>
+									</div>
+								</div>
+
+
+
+								<div class="row">
+									<div class="col-md-12">
+										<div>Show Levels</div>
+										<div>Show Points</div>
+										<div>Show Badges</div>
+										<div>Show courses</div>
+										<div>Show certifications</div>
+
 									</div>
 
 								</div>
 							</div>
-						</div>
-
-
-						<div class="form-group">
-							<label>Badges</label>
-							<div>
-								<label>off</label>
-								<label class="switch">
-									<input type="checkbox" />
-									<span class="slider"></span>
-								</label>
-								<label>on</label>
-							</div>
-						</div>
-
-						<div class="row">
-							<div class="col-md-12">
-								<div>Activity Badges (4, 8, 16, 32, 64, 128, 256, 512 Logins)</div>
-								<div>Learning Badges (1, 2, 4, 8, 16, 32, 64, 128 Completed Courses)</div>
-								<div>Test Badges (2, 4, 8, 16, 32, 64, 128, 256 passed tests)</div>
-								<div>Assignment Badges (1, 2, 4, 8, 16, 32, 64, 128 passed assignments)</div>
-								<div>Perfectionism Badges (1, 2, 4, 8 16, 32, 64, 128 tests or assignments with score 90%+)</div>
-								<div>Survey Badges (1, 2, 4, 8, 16, 32, 64, 128 completed surveys)</div>
-								<div>Communication Badges (2, 4, 8, 16, 32, 64, 128, 256 topic or comments)</div>
-								<div>Certification Badges (1, 2, 4, 8 16, 32, 64, 128, 256, 512 certifications)</div>
+							<div class="box-footer">
 
 							</div>
-
-						</div>
-
-						<br />
-						<div class="row">
-							<div class="col-md-4">
-								<a class="btn btn-default" href="#Badges" data-toggle="tab">
-									<i class="fa fa-trophy"></i> Customize Badges</a>
-							</div>
-
-						</div>
-
-						<br />
-						<div class="form-group">
-							<label>Leaderboard</label>
-							<div>
-								<label>off</label>
-								<label class="switch">
-									<input type="checkbox" />
-									<span class="slider"></span>
-								</label>
-								<label>on</label>
-							</div>
 						</div>
 
 
 
-						<div class="row">
-							<div class="col-md-12">
-								<div>Show Levels</div>
-								<div>Show Points</div>
-								<div>Show Badges</div>
-								<div>Show courses</div>
-								<div>Show certifications</div>
 
-							</div>
-
-						</div>
 
 
 

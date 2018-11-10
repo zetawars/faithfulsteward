@@ -12,19 +12,13 @@
         </section>
         <section class="content">
 
-            <div class="nav-tabs">
-                <div class="row">
-                    <div class="col-md-3">
-                        <a href="{{url('/')}}/report/custom" class="btn btn-default">Custom Reports</a>
-                    </div>
-                </div>
-            </div>
-            <br>
+
+
 
             <!-- Custom Tabs -->
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                    <li><a href="#tab_1" data-toggle="tab" class="active">User Reports</a></li>
+                    <li class="active"><a href="#tab_1" data-toggle="tab" class="active">User Reports</a></li>
                     <li><a href="#tab_2" data-toggle="tab">Course Report</a></li>
                     <li><a href="#tab_3" data-toggle="tab">Mastermind Report</a></li>
                     <li><a href="#tab_4" data-toggle="tab">Test Report</a></li>
@@ -36,30 +30,17 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="tab_1">
 
-                    <br>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <button type="button" class="btn btn-block btn-default">Add Filter</button>
-                                </div>
-                            </div>
+
                             <div class="box">
                                 <div class="box-header">
-                                    <h3 class="box-title"></h3>
+                                    <a href="{{url('/')}}/report/custom" class="btn btn-primary">Custom Reports</a>
 
-                                    <div class="box-tools">
-                                        <ul class="pagination no-margin">
-                                            <li><a href="#">«</a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">»</a></li>
-                                        </ul>
-                                    </div>
+
                                 </div>
 
-                                <!-- /.box-header -->
+                                <div class="box-body">
 
-                                <table class="table table-bordered">
+                                <table class="table table-bordered datatable">
                                     <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
@@ -77,9 +58,11 @@
                                         <td>Admin</td>
 
                                         <td></td>
-                                        <td><a href="{{url('/')}}/course/manage" class="btn btn-default">View</a>
-                                            <a href="{{url('/')}}/course/manage" class="btn btn-default">edit</a>
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                        <td><a href="{{url('/')}}/course/manage" class="text-info"><i class="fa fa-eye"></i></a>
+                                            <a href="{{url('/')}}/course/manage" class="text-info"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="#/" class="text-danger"><i class="fa fa-trash"></i></a>
+
+
                                         </td>
                                     </tr>
                                     <tr>
@@ -88,9 +71,9 @@
                                         <td>Learner</td>
                                         <td></td>
 
-                                        <td><a href="{{url('/')}}/course/manage" class="btn btn-default">View</a>
-                                            <a href="{{url('/')}}/course/manage" class="btn btn-default">edit</a>
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                        <td><a href="{{url('/')}}/course/manage" class="text-info"><i class="fa fa-eye"></i></a>
+                                            <a href="{{url('/')}}/course/manage" class="text-info"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="#/" class="text-danger"><i class="fa fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -100,27 +83,28 @@
                                         <td></td>
 
                                         <td>
-                                            <a href="{{url('/')}}/course/manage" class="btn btn-default">View</a>
-                                            <a href="{{url('/')}}/course/manage" class="btn btn-default">edit</a>
-                                            <button type="button" class="btn btn-danger">Delete</button>
+                                            <a href="{{url('/')}}/course/manage" class="text-info"><i class="fa fa-eye"></i></a>
+                                            <a href="{{url('/')}}/course/manage" class="text-info"><i class="fa fa-pencil-square-o"></i></a>
+                                            <a href="#/" class="text-danger"><i class="fa fa-trash"></i></a>
 
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <!-- /.box-body -->
+                                </div>
+                                <div class="box-footer">
+
+                                </div>
                             </div>
                             <!-- /.box -->
 
 
                         </div>
                     </div>
-                </div>
 
 
 
 
-            </div>
 
         </section>
     </div>
