@@ -55,6 +55,7 @@ Route::get('/compagin/add','CompaginController@CompaginAdd');
 
 Route::get('/project','ProjectController@Index');
 Route::get('/project/add','ProjectController@ProjectAdd');
+Route::get('/project/view','ProjectController@ProjectView');
 
 Route::get('/users','UserController@Index');
 Route::get('/users/add','UserController@UserAdd');
@@ -72,3 +73,10 @@ Route::get('/setting','SettingController@Index');
 Route::get('/instructor/index','Instructor\DashboardController@Index');
 
 Route::get('/instructor/courses','Instructor\CoursesController@Index');
+
+Route::get('/instructor/coursecatelog','Instructor\CourseCatelogController@Index');
+
+Route::get('/instructor/report','Instructor\ReportController@Index');
+Route::get('/instructor/customreport','Instructor\ReportController@CustomReport');
+
+Route::get('/instructor/account','Instructor\AccountController@Index');

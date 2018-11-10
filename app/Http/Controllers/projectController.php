@@ -16,4 +16,10 @@ class projectController extends Controller
     {
         return view('Panel.Project.NewProject');
     }
+
+    Public function ProjectView()
+    {
+        return view('Panel.Project.view');
+    }
+
 }

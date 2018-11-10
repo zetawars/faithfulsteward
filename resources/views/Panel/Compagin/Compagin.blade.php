@@ -11,41 +11,19 @@
 
         </section>
         <section class="content">
+            <div class="box">
+                <div class="box-header">
+                    <a href="{{url('/')}}/compagin/add" class="btn btn-primary">Create Compagins</a>
 
-            <!-- Custom Tabs -->
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                    <li><a href="{{url('/')}}/compagin/add" class="btn btn-default">Create Compagins</a></li>
-
-
-                </ul>
-            </div>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                    <div class="row">
-                        <div class="col-md-2">
-                            <button type="button" class="btn btn-block btn-default">Add Filter</button>
-                        </div>
-                    </div>
-                    <br>
+                </div>
+                <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="box">
-                                <div class="box-header">
-                                    <h3 class="box-title"></h3>
 
-                                    <div class="box-tools">
-                                        <ul class="pagination no-margin">
-                                            <li><a href="#">«</a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">»</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
 
                                 <!-- /.box-header -->
 
-                                <table class="table table-bordered">
+                                <table class="table table-bordered datatable">
                                     <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
@@ -65,9 +43,8 @@
                                         <td>In progress</td>
                                         <td>100</td>
                                         <td>1%</td>
-                                        <td><a href="{{url('/')}}/course/manage" class="btn btn-default">View</a>
-                                            <a href="{{url('/')}}/course/manage" class="btn btn-default">edit</a>
-
+                                        <td><a href="#/" class="text-primary"><i class="fa fa-eye"></i></a>
+                                            <a href="#/" class="text-info" ><i class="fa fa-pencil-square-o"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -77,9 +54,8 @@
                                         <td>Email Sent</td>
                                         <td>300</td>
                                         <td>10%</td>
-                                        <td><a href="{{url('/')}}/course/manage" class="btn btn-default">View</a>
-                                            <a href="{{url('/')}}/course/manage" class="btn btn-default">edit</a>
-
+                                        <td><a href="#/" class="text-primary"><i class="fa fa-eye"></i></a>
+                                            <a href="#/" class="text-info" ><i class="fa fa-pencil-square-o"></i></a>
                                         </td>
                                     </tr>
                                     <tr>
@@ -100,14 +76,19 @@
 
 
                         </div>
-                    </div>
+
+                <div class="box-footer">
+
                 </div>
 
-                <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
 
-            <!-- nav-tabs-custom -->
+
+            <!-- Custom Tabs -->
+
+
+
+
+
 
         </section>
     </div>
