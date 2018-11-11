@@ -793,7 +793,7 @@
 <script src="{{ url('/') }}/Admin/plugins/tinymce/jquery.tinymce.js"></script>
 
 
-    <script src="{{ url('/') }}/Admin/bower_components/chart.js/Chart.bundle.min.js"></script>
+    <script src="{{ url('/') }}/Admin/bower_components/chart.js/chart.bundle.min.js"></script>
 <script src="{{ url('/') }}/Admin/plugins/iCheck/icheck.min.js"></script>
 
 
