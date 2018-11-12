@@ -47,7 +47,7 @@
                             <div class="form-group">
                                 <label>cost</label>
                                 <input type="text" class="form-control" placeholder="$1000">
-                               
+
                             </div>
                         </div>
                     </div>
