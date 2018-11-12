@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="{{ url('/') }}/Admin/bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
 
+ <link rel="stylesheet" href="{{ url('/') }}/Admin/bower_components/dist/css/animate.css">
+
+
 <link href="{{ url('/') }}/Admin/bower_components/fullcalendar/dist/fullcalendar.min.css" rel="stylesheet" />
 
 
@@ -786,14 +789,12 @@
 
 
 <script src="{{ url('/') }}/Admin/plugins/jquery-steps/build/jquery.steps.min.js"></script>
-
-
-
+<script src="{{ url('/') }}/Admin/plugins/vuejs/vue.js"></script>
 <script src="{{ url('/') }}/Admin/plugins/tinymce/tinymce.js"></script>
 <script src="{{ url('/') }}/Admin/plugins/tinymce/jquery.tinymce.js"></script>
 
 
-    <script src="{{ url('/') }}/Admin/bower_components/chart.js/chart.bundle.min.js"></script>
+<script src="{{ url('/') }}/Admin/bower_components/chart.js/chart.bundle.min.js"></script>
 <script src="{{ url('/') }}/Admin/plugins/iCheck/icheck.min.js"></script>
 
 

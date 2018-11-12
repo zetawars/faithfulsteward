@@ -80,3 +80,6 @@ Route::get('/instructor/report','Instructor\ReportController@Index');
 Route::get('/instructor/customreport','Instructor\ReportController@CustomReport');
 
 Route::get('/instructor/account','Instructor\AccountController@Index');
+
+Route::get('/learner/index','Learner\CourseController@Index');
+
