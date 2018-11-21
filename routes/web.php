@@ -81,7 +81,7 @@ Route::get('/instructor/customreport','Instructor\ReportController@CustomReport'
 
 Route::get('/instructor/account','Instructor\AccountController@Index');
 //...................................................................................
-Route::get('/learner/index','Learner\CourseController@Index');
+Route::get('/learner/coursedetail','Learner\CourseController@CourseDetail');
 Route::get('/learner/bilicalfinance','Learner\CourseController@Bibilical');
 Route::get('/learner/biography','Learner\CourseController@Biography');
 Route::get('/learner/course','Learner\CourseController@Courses');

@@ -7,9 +7,9 @@ use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
-    public function Index()
+    public function CourseDetail()
     {
-        return view('Learner.Index');
+        return view('Learner.CourseDetail');
     }
     public function Courses()
     {

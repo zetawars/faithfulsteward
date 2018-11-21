@@ -60,7 +60,7 @@
 
                             <div class="row">
                                 <div class="col-md-2 col-md-offset-1">
-                                    <button type="button" class="btn btn-primary">Resume</button>
+                                    <a href="{{ url('/') }}/learner/coursedetail" role="button" class="btn btn-primary">Resume</a>
                                 </div>
 
                                 <div class="col-md-2 col-md-offset-1">

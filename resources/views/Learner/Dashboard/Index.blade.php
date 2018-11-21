@@ -97,7 +97,7 @@
                         <div class="col-md-2">
 
 
-                            <a href="#" class="btn btn-primary">
+                            <a href="{{ url('/') }}/learner/coursedetail" class="btn btn-primary">
                                 Resume
                             </a>
 

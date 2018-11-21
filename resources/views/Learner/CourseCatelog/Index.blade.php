@@ -58,7 +58,7 @@
                             <label>Price:free</label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="button" class="btn btn-primary">View the Course</button>
+                                    <a href="{{ url('/') }}/learner/coursedetail" role="button" class="btn btn-primary">View the Course</a>
                                 </div>
                             </div>
                     </div>
