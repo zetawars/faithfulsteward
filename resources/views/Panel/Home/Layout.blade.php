@@ -524,6 +524,47 @@
 
                     </a>
                 </li>
+                <li>
+                    <a href="{{url('/')}}/learner/dashboard">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="{{url('/')}}/learner/course">
+                        <i class="fa fa-dashboard"></i> <span>My Course</span>
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{url('/')}}/learner/coursecatelog">
+                        <i class="fa fa-dashboard"></i> <span>Course Catelog</span>
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{url('/')}}/learner/project">
+                        <i class="fa fa-dashboard"></i> <span>Project</span>
+
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{url('/')}}/learner/account">
+                        <i class="fa fa-dashboard"></i> <span>My Account</span>
+
+                    </a>
+                </li>
+
+
+
+
+
+
+
+
 
 
 

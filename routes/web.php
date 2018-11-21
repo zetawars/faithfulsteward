@@ -80,6 +80,15 @@ Route::get('/instructor/report','Instructor\ReportController@Index');
 Route::get('/instructor/customreport','Instructor\ReportController@CustomReport');
 
 Route::get('/instructor/account','Instructor\AccountController@Index');
-
+//...................................................................................
 Route::get('/learner/index','Learner\CourseController@Index');
+Route::get('/learner/bilicalfinance','Learner\CourseController@Bibilical');
+Route::get('/learner/biography','Learner\CourseController@Biography');
+Route::get('/learner/course','Learner\CourseController@Courses');
+Route::get('/learner/coursecatelog','Learner\CourseController@CourseCatelog');
+Route::get('/learner/project','Learner\ProjectController@Index');
+Route::get('/learner/dashboard','Learner\DashboardController@Index');
+Route::get('/learner/account','Learner\AccountController@Index');
+
+
 
