@@ -23,4 +23,8 @@ class CourseController extends Controller
     {
         return view('Panel.Courses.NewCourse');
     }
+    public function EditUserCourse()
+    {
+        return view('Archive.EditUserCourse');
+    }
 }

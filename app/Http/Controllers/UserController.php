@@ -21,6 +21,18 @@ class UserController extends Controller
     {
         return view('Panel.Users.UserProfile');
     }
-    
 
+    public function EditAccountInfo()
+    {
+        return view('Archive.EdituserAccount');
+    }
+
+    public function EditUserMore()
+    {
+        return view('Archive.EditUserMore');
+    }
+    public function EditDetail()
+    {
+        return view('Archive.EditUserDetail');
+    }
 }

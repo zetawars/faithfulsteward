@@ -31,6 +31,7 @@ Route::get('/course', 'CourseController@General');
 Route::get('/course/view','CourseController@viewCourse');
 Route::get('/course/manage','CourseController@ManageCourse');
 Route::get('/course/newcourse','CourseController@NewCourse');
+Route::get('/edituser/course','CourseController@EditUserCourse');
 
 
 Route::get('/enroll/learner','LearnerController@EnrollLearner');
@@ -60,12 +61,16 @@ Route::get('/project/view','ProjectController@ProjectView');
 Route::get('/users','UserController@Index');
 Route::get('/users/add','UserController@UserAdd');
 Route::get('/users/profile','UserController@UserProfile');
+Route::get('/edituser/account','UserController@EditAccountInfo');
+Route::get('/edituser/more','UserController@EditUserMore');
+Route::get('/edituser/detail','UserController@EditDetail');
 
 
 Route::get('/report','ReportController@Index');
 Route::get('/report/view','ReportController@View');
 Route::get('/report/custom','ReportController@CustomReport');
 Route::get('/report/userreport','ReportController@UserReport');
+
 
 
 Route::get('/setting','SettingController@Index');
@@ -89,6 +94,8 @@ Route::get('/learner/coursecatelog','Learner\CourseController@CourseCatelog');
 Route::get('/learner/project','Learner\ProjectController@Index');
 Route::get('/learner/dashboard','Learner\DashboardController@Index');
 Route::get('/learner/account','Learner\AccountController@Index');
-
+//..................................................................................
+Route::get('/archive/quiz','Archive\ArchiveController@Quiz');
+Route::get('/archive/lesson','Archive\ArchiveController@Lesson');
 
 
