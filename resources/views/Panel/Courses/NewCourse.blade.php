@@ -1,4 +1,19 @@
 @extends('Panel.Home.Layout') @section('content')
+
+
+<style>
+.box {
+    border: 3px solid #d2d6de;
+
+}
+
+.btn-group .btn-default {
+    margin-right:5px;
+}
+
+
+</style>
+
     <div class="content-wrapper">
         <section class="content-header">
             <ol class="breadcrumb">
@@ -163,8 +178,8 @@
 
                         </div>
                     </div>
-
                 </div>
+
                 <div class="tab-pane" id="tab_2">
                     <div class="box">
                         <div class="box-header">
@@ -174,7 +189,6 @@
 
                             <div class="row">
                                 <div class="col-md-6" custom-control custom-radio custom-control-inline>
-
                                     <input type="radio" class="custom-control-input" id="defaultInline1"
                                            name="inlineDefaultRadiosExample">
                                     <label class="custom-control-label" for="defaultInline1">Lesson in order</label>
@@ -194,8 +208,29 @@
                                 </div>
 
                             </div>
+
                             <div class="row">
                                 <div class="col-md-12">
+                                        <div class="box box-primary" v-for="Module in Modules">
+                                            <div class="box-header">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                <span><i class="fa fa-list"></i> <input type="text" class="form-control" :value="Module.Title" style="display:inline;width:auto" /></span>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <div class="pull-right">
+                                                    <button type="button" @click="AddNewModule()" class="btn btn-block"><i class="fa fa-plus"></i></button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            </div>
+                                            <div class="box-body">
+                                                @{{Module.Description}}
+                                                <button class="btn btn-block" @click="OpenNewContentModal()"><i class="fa fa-plus"></i> Add Content to the module</button>
+                                            </div>
+                                        </div>
+
                                 </div>
                             </div>
 
@@ -205,6 +240,183 @@
                         </div>
 
                     </div>
+
+<div class="modal fade" id="AddContentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                Add a Learning Object
+            </div>
+            <div class="modal-body">
+                <h4>Please Select a Content type to add</h4>
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="btn-group">
+                        <button class="btn btn-default" @click="OpenVideoModal()"><i class="fa fa-camera"></i>&nbsp; Video</button>
+                        <button class="btn btn-default" @click="OpenFileModal()"><i class="fa fa-file"></i>&nbsp; File</button>
+                        <button class="btn btn-default" @click="OpenContentModal()"><i class="fa fa-file-text-o"></i>&nbsp; Content</button>
+                        <button class="btn btn-default" @click="OpenAssesmentModal()"><i class="fa fa-pencil-square-o"></i>&nbsp; Assesment</button>
+                        <button class="btn btn-default" @click="OpenSurveyModal()"><i class="fa fa-file-check"></i>&nbsp; Survey</button>
+                    </div>
+                </div>
+
+
+                   
+            
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="VideoModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Add Video</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Name" />
+                </div>
+                <div class="form-group">
+                <div><label>How to complete it</label></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Mark Complete</button>
+                        <button class="btn btn-default"><i class="fa fa-question"></i>&nbsp;With a Question</button>
+                        <button class="btn btn-default"><i class="fa fa-clock-o"></i>&nbsp;After a period of time</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div><label>Video Source</label></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" @click="ChangeVideoSource('URL')"><i class="fa fa-external-link"></i>&nbsp;URL (e.g youtube)</button>
+                        <button class="btn btn-default"  @click="ChangeVideoSource('Source')"><i class="fa fa-folder"></i>&nbsp;From a Source</button>
+                        <br />
+                        <input type=text class="form-control" v-if="SelectedVideoSource=='URL'" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div><label>Notes to display below the video</label></div>
+                    <textarea class="form-control" placeholder="Notes"></textarea>
+                </div>
+            </div>
+
+
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="FileModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Add File</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Name" />
+                </div>
+                <div class="form-group">
+                <div><label>How to complete it</label></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Mark Complete</button>
+                        <button class="btn btn-default"><i class="fa fa-question"></i>&nbsp;With a Question</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div><label>Document Type (PDF, MP4, MP3)</label></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class="fa fa-external-link"></i>&nbsp;Upload Document</button>
+                        <button class="btn btn-default"><i class="fa fa-folder"></i>&nbsp;Use Document From Course file</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div><label>Notes to display below the File</label></div>
+                    <textarea class="form-control" placeholder="Notes"></textarea>
+                </div>
+            </div>
+
+
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="ContentModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Add Content</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Name" />
+                </div>
+                <div class="form-group">
+                <div><label>How to complete it</label></div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary"><i class="fa fa-check"></i>&nbsp;Mark Complete</button>
+                        <button class="btn btn-default"><i class="fa fa-question"></i>&nbsp;With a Question</button>
+                       
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div><label>Content</label></div>
+                    <textarea class="form-control" placeholder="Notes"></textarea>
+                </div>
+            </div>
+
+
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="SurveyModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Add Survey</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Name" />
+                </div>
+            </div>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
 
 
                 </div>
@@ -260,7 +472,6 @@
 
 
                 </div>
-
                 <div class="tab-pane" id="tab_4">
                     <div class="box">
                         <div class="box-header"></div>
@@ -520,4 +731,62 @@
     </div>
 
 
+@endsection
+
+
+@section("scripts")
+<script>
+
+    var tab_2 = new Vue({
+        el : "#tab_2",
+        data : {
+            SelectedVideoSource : 'URL',
+            Modules : [
+                {
+                    Title : "Module 1",
+                    Description : "lorem ipsum"
+                },
+                {
+                    Title : "Module 2",
+                    Description : "lorem ipsum"
+                },
+            ],    
+        },
+        methods :{
+            ChangeVideoSource(Type){
+                this.SelectedVideoSource = Type;
+            },
+            AddNewModule(){
+                this.Modules.push({Title : "New Module", Description : ""});
+            },
+            OpenNewContentModal(){
+                $("#AddContentModal").modal("show");
+            },
+            CloseNewContentModal(){
+                $("#AddContentModal").modal("hide");
+            },
+            OpenVideoModal(){
+                this.CloseNewContentModal();
+                $("#VideoModal").modal("show");
+            },
+            OpenFileModal(){
+                this.CloseNewContentModal();
+                $("#FileModal").modal("show");
+            },
+            OpenContentModal(){
+                this.CloseNewContentModal();
+                $("#ContentModal").modal("show");
+            },
+            OpenAssesmentModal(){
+                this.CloseNewContentModal();
+                $("#AssesmentModal").modal("show");
+            },
+            OpenSurveyModal(){
+                this.CloseNewContentModal();
+                $("#SurveyModal").modal("show");
+            }
+        }
+    });
+
+</script>
 @endsection
