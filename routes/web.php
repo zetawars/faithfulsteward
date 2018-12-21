@@ -17,11 +17,11 @@ Route::get('/', function () {
 // Route::get('login', function () {
 //     return view('Panel.Account.login');
 // });
-Route::get('/login','AccountController@Login')->name('login');
-Route::post('/login','AccountController@validateLogin');
+// Route::get('/login','AccountController@Login')->name('login');
+// Route::post('/login','AccountController@validateLogin');
 
-Route::get('/register','AccountController@Register')->name('register');
-Route::post('/create','AccountController@Create');
+// Route::get('/register','AccountController@Register')->name('register');
+// Route::post('/create','AccountController@Create');
 
 Route::get('/logout','AccountController@Logout');
 
@@ -99,3 +99,7 @@ Route::get('/archive/quiz','Archive\ArchiveController@Quiz');
 Route::get('/archive/lesson','Archive\ArchiveController@Lesson');
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
